@@ -1,34 +1,28 @@
-var passport = require("passport");
-var User = require("../models/user");
+var Group = require("../models/group");
 
-// use static authenticate method of model in LocalStrategy
-passport.use(User.createStrategy());
-
-// use static serialize and deserialize of model for passport session support
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
-var auth = {};
-
-auth.register = function register(req, res, next) {
-    var user = new User({
+var groupcontroller = {};
+groupcontroller.add = function register(req, res, next) {
+    var group = new Group({
         //todo add more fields
-        username: req.body.username
+        name: req.body.groupname,
+        type: req.body.grouptype
     });
-    User.register(user, req.body.password, function(err) {
-        if (err) {
-            //todo handle errors
-            console.log("Registration error: ", err);
-            return err;
+    group.save(function (err, data) {
+        if (err) console.log(err);
+        else console.log('Saved : ', data);
+    });
+};
+
+groupcontroller.delete = function register(req, res, next) {
+    var group = Group.findOne({ 'name': req.body.groupname }).remove(function (err, data) {
+        if (err) return handleError(err);
+        else {
+            console.log('Removed : ', data);
+            res.send("Group "+ req.body.groupname+" successfully removed ");
         }
-        //todo redirect
-        // res.redirect("/user");
     })
 };
 
-auth.logout = function logout(req, res, next) {
-    req.logout();
-    res.redirect('/');
-};
 
-module.exports = auth;
+
+module.exports = groupcontroller;
