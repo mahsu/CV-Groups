@@ -5,7 +5,9 @@ var User = new mongoose.Schema({
     name: {
         first: String,
         last: String
-    }
+    },
+    email: {type: String, lowercase: true},
+    address: String
 });
 
 //login fields abstracted by passport-local-mongoose

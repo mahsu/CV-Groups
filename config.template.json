@@ -2,6 +2,6 @@
   "setup": {
     "_comment": "Secret api keys.",
     "cookie_secret": "",
-    "mongo_url": ""
+    "mongo_uri": ""
   }
 }

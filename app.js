@@ -6,13 +6,17 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var session = require('cookie-session');
+var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
 var auth = require('./routes/auth');
 var users = require('./routes/users');
 
-
+var config = require('./config');
 var app = express();
+
+
+mongoose.connect(process.env.COMPOSE_URI || process.env.MONGOLAB_URI || config.setup.mongouri || 'mongodb://localhost/cvgroups');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
