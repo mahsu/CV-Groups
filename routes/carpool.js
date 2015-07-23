@@ -77,4 +77,9 @@ router.get('/map/:place1/:place2/:dest', function (req, res, next) {
 
 });
 
+/* GET users listing. */
+router.get('/users', function (req, res, next) {
+    res.send('just entered carpool users request');
+});
+
 module.exports = router;
