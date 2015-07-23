@@ -1,6 +1,5 @@
 *.idea
 config.json
-_global.css
 
 # Logs
 logs
