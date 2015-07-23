@@ -30,3 +30,4 @@ node_modules
 *.njsproj
 *.suo
 .ntvs_analysis.dat
+index.css

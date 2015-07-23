@@ -1,3 +1,4 @@
+"use strict";
 var express = require('express');
 var router = express.Router();
 var group = require('../controllers/group');
@@ -12,4 +13,5 @@ router.get('/show/type/:grouptype', group.findGroupByType);
 
 router.post('/add', group.add);
 router.post('/delete', group.delete);
+
 module.exports = router;
