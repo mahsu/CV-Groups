@@ -16,6 +16,7 @@ auth.register = function register(req, res, next) {
         //todo add more fields
         username: req.body.username
     });
+    console.log(req.body);
     User.register(user, req.body.password, function(err) {
         if (err) {
             //todo handle errors
