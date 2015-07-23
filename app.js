@@ -11,6 +11,7 @@ var mongoose = require('mongoose');
 var routes = require('./routes/index');
 var auth = require('./routes/auth');
 var users = require('./routes/users');
+var carpool = require('./routes/carpool');
 
 var config = require('./config');
 var app = express();
@@ -45,6 +46,7 @@ function _requireAuthentication(req, res, next) {
     else res.status(401).send("User is not logged in.");
 }
 app.use('/', routes);
+app.use('/carpool', carpool);
 app.use('/auth', auth);
 app.use('/users', _requireAuthentication, users);
 
