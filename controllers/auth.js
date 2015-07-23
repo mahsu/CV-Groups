@@ -12,19 +12,23 @@ passport.deserializeUser(User.deserializeUser());
 var auth = {};
 
 auth.register = function register(req, res, next) {
+    var point = {type: "Point", coordinates: [parseFloat(req.body.location.lon), parseFloat(req.body.location.lat)]};
     var user = new User({
         //todo add more fields
-        username: req.body.username
+        username: req.body.username,
+        address: req.body.address,
+        loc: point
     });
     console.log(req.body);
     User.register(user, req.body.password, function(err) {
         if (err) {
             //todo handle errors
             console.log("Registration error: ", err);
+            res.json(err);
             return err;
         }
         //todo redirect
-        // res.redirect("/user");
+        res.status(200);
     })
 };
 
