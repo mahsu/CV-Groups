@@ -95,4 +95,23 @@ router.get('/map/:place1/:place2/:dest', function (req, res, next) {
 
 });
 
+/* GET users listing. */
+router.get('/users', function (req, res, next) {
+    res.send('just entered carpool users request');
+});
+
+/* GET distance */
+router.get('/distance/:place1/:place2', function (req, res, next) {
+    distance.get(
+        {
+            origin: req.params.place1,
+            destination: req.params.place2
+        },
+        function (err, data) {
+            if (err) return console.log(err);
+            res.send(data.distance);
+        });
+});
+
+
 module.exports = router;
