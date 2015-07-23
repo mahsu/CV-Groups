@@ -1,7 +1,7 @@
 var express = require('express');
+var passport = require('passport');
 var router = express.Router();
 var auth = require('../controllers/auth');
-var passport = require('passport');
 
 router.get('/register', function(req, res, next) {
 });
