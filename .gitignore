@@ -1,8 +1,5 @@
 *.idea
-*.vs
 config.json
-.ntvs_analysis.dat
-
 # Logs
 logs
 *.log
@@ -31,3 +28,5 @@ build/Release
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
 *.njsproj
+*.suo
+.ntvs_analysis.dat

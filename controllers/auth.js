@@ -1,4 +1,3 @@
-"use strict";
 var passport = require("passport");
 var User = require("../models/user");
 
@@ -19,7 +18,6 @@ auth.register = function register(req, res, next) {
         address: req.body.address,
         loc: point
     });
-    console.log(req.body);
     User.register(user, req.body.password, function(err) {
         if (err) {
             //todo handle errors

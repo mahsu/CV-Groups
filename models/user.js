@@ -13,16 +13,9 @@ var User = new mongoose.Schema({
     loc: {type: {type: String}, coordinates: [Number]},//[lon,lat]
     _distance: Number //virtual property for use in geonear
 });
-User.index({'address.loc': '2dsphere'});
 
 //login fields abstracted by passport-local-mongoose
-User.plugin(passportLocalMongoose, {
-    usernameField: 'username',
-    saltField: 'salt',
-    hashField: 'hash',
-    attemptsField: 'attempts',
-    usernameLowerCase: true
-});
+User.plugin(passportLocalMongoose);
 
 User.methods.findNearby = function(maxdist, callback) {
     var _this = this;

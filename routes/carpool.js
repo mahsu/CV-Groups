@@ -1,4 +1,3 @@
-"use strict";
 var express = require('express');
 var router = express.Router();
 var distance = require('google-distance');
@@ -26,9 +25,6 @@ router.get('/map/:place1/:place2/:dest', function (req, res, next) {
                     destination: req.params.place2
                 },
                 function (err, data) {
-                    if (err) {
-                        return done(err);
-                    }
                     done(err, parseInt(data.distanceValue));
                 }
             )
@@ -40,9 +36,6 @@ router.get('/map/:place1/:place2/:dest', function (req, res, next) {
                     destination: req.params.place1
                 },
                 function (err, data) {
-                    if (err) {
-                        return done(err);
-                    }
                     done(err, parseInt(data.distanceValue));
                 }
             )
@@ -54,9 +47,6 @@ router.get('/map/:place1/:place2/:dest', function (req, res, next) {
                     destination: req.params.dest
                 },
                 function (err, data) {
-                    if (err) {
-                        return done(err);
-                    }
                     done(err, parseInt(data.distanceValue));
                 }
             )
@@ -68,50 +58,23 @@ router.get('/map/:place1/:place2/:dest', function (req, res, next) {
                     destination: req.params.dest
                 },
                 function (err, data) {
-                    if (err) {
-                        return done(err);
-                    }
                     done(err, parseInt(data.distanceValue))
                 }
             )
         }
     }, function (err, result) {
-        if (err) {
-            return res.send(err.toString());
+        console.log("Path1 = " + result.d12 + result.d2);
+        console.log("Path2 = " + result.d21 + result.d1);
+
+        if ((result.d12 + result.d2) > (result.d21 + result.d1)) {
+            res.send(req.params.place2);
         }
         else {
-            console.log("Path1 = " + result.d12 + result.d2);
-            console.log("Path2 = " + result.d21 + result.d1);
-
-            if ((result.d12 + result.d2) > (result.d21 + result.d1)) {
-                res.send(req.params.place2);
-            }
-            else {
-                res.send(req.params.place1);
-            }
+            res.send(req.params.place1);
         }
     })
 
 
 });
-
-/* GET users listing. */
-router.get('/users', function (req, res, next) {
-    res.send('just entered carpool users request');
-});
-
-/* GET distance */
-router.get('/distance/:place1/:place2', function (req, res, next) {
-    distance.get(
-        {
-            origin: req.params.place1,
-            destination: req.params.place2
-        },
-        function (err, data) {
-            if (err) return console.log(err);
-            res.send(data.distance);
-        });
-});
-
 
 module.exports = router;
