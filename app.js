@@ -1,3 +1,4 @@
+"use strict";
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -17,7 +18,7 @@ var config = require('./config');
 var app = express();
 
 
-mongoose.connect(process.env.COMPOSE_URI || process.env.MONGOLAB_URI || config.setup.mongouri || 'mongodb://localhost/cvgroups');
+mongoose.connect(process.env.COMPOSE_URI || process.env.MONGOLAB_URI || config.setup.mongo_uri || 'mongodb://localhost/cvgroups');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

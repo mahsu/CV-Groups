@@ -17,8 +17,8 @@ var postSchema = new mongoose.Schema({
     author: {type: Schema.Types.ObjectId, ref: 'User'},
     tags: [String],
     comments: [commentSchema],
-    upvoted_by: [{type: Schema.Types.ObjectId, ref: User}],
-    downvoted_by: [{type: Schema.Types.ObjectId, ref: User}]
+    upvoted_by: [{type: Schema.Types.ObjectId, ref: 'User'}],
+    downvoted_by: [{type: Schema.Types.ObjectId, ref: 'User'}]
 });
 
 var groupSchema = new mongoose.Schema({
