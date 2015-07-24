@@ -50,17 +50,32 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scop
 
     $scope.searchInput = "";
 
-    $scope.groups = [];
+    $scope.allGroups = [];
+    $scope.userGroups = [];
 
+    //Getting data for all Groups
     $http.get('/api/groups/showall')
         .success(function (data, status, headers, config) {
             console.log("trying to get /groups/showall");
-            $scope.groups = data;
-            console.log("get succeeded, data in var groups");
+            $scope.allGroups = data;
+            console.log("get succeeded, data in var allGroups");
         })
         .error(function (data, status, headers, config) {
             console.log("failure");
     });
+
+    //Uncomment when logged in to get userGroups
+    /*
+    $http.get('/api/users/viewGroup')
+        .success(function(data, status, headers, config) {
+            console.log("trying to get user groups");
+            $scope.userGroups = data;
+            console.log("get user groups succeeded, data in var userGroups");
+        })
+        .error(function (data, status, headers, config) {
+            console.log("failure");
+        });
+        */
 }]);
 
 function geoCode(address, callback) {
