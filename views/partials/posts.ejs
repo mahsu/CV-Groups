@@ -30,32 +30,28 @@
     </md-whiteframe>
 
 
-    <md-card class="postCard">
+    <md-card class="postCard" ng-repeat="item in messages|reverse">
         <md-card-content>
             <h2 class="md-title">FirstN LastN</h2>
-            <h6>9:20 AM 22 Jul</h6>
+            <h6>{{item.created_at}}</h6>
 
             <p>
-                The titles of Washed Out's breakthrough song and the first single from Paracosm share the
-                two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
+                {{item.body}}
             </p>
         </md-card-content>
         <div class="md-actions" layout="row" layout-align="end center">
             <md-button>..more</md-button>
-            <md-button><i class="fa fa-thumbs-o-up"></i> (12)</md-button>
-            <md-button><i class="fa fa-thumbs-o-down"></i> (5)</md-button>
+            <md-button><i class="fa fa-thumbs-o-up"></i> {{item.upvoted_by.length}}</md-button>
+            <md-button><i class="fa fa-thumbs-o-down"></i> {{item.downvoted_by.length}}</md-button>
         </div>
 
         <md-divider ng-if="!$last"></md-divider>
         <md-content>
             <md-list>
-                <md-list-item class="md-3-line" ng-repeat="item in messages">
+                <md-list-item class="md-3-line" >
 
                     <div class="md-list-item-text">
-                        <h3>{{item.author}}</h3>
-                        <h4>{{item.body}}</h4>
-
-                        <p>{{item._id}}</p>
+                        <h4>Comment</h4>
                     </div>
                     <md-divider ng-if="!$last"></md-divider>
                 </md-list-item>
