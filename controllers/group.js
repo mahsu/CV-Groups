@@ -42,6 +42,7 @@ groupcontroller.delete = function (req, res, next) {
 
 groupcontroller.showAll = function (req, res, next) {
     var group = Group.find({}, 'name type description',function (err, data) {
+        console.log(data);
         res.send(data);
     });
 };

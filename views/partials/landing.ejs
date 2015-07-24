@@ -24,13 +24,17 @@
             <!-- Uncomment this line to test value of searchInput -->
             <!-- <p>{{searchInput}}</p> -->
 
-            <h2>Current Groups</h2>
-            <md-button class="md-raised md-primary buttonLarge" ng-repeat="group in allGroups|filter:searchInput">{{ group.name }} </md-button>
+            <div>
+                <h2>Current Groups</h2>
+                <md-button class="md-raised md-primary buttonLarge" ng-repeat="group in allGroups|filter:searchInput">{{ group.name }} </md-button>
+            </div>
 
             <md-button class="md-raised md-primary buttonLarge">Add Groups</md-button>
 
-            <h2>User Groups </h2>
-            <md-button class="md-raised md-primary buttonLarge" ng-repeat="group in userGroups|filter:searchInput">{{ group.name }} </md-button>
+            <div>
+                <h2>User Groups </h2>
+                <md-button class="md-raised md-primary buttonLarge" ng-repeat="group in userGroups|filter:searchInput" ng-show="!userGroups.length">{{ group.name }} </md-button>
+            </div>
         </md-content>
     </div>
 </div>

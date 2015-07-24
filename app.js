@@ -51,7 +51,7 @@ app.use('/', routes);
 app.use('/api/carpool', carpool);
 app.use('/api/auth', auth);
 app.use('/api/users', _requireAuthentication, users);
-app.use('/api/groups', groups);
+app.use('/api/groups',_requireAuthentication, groups);
 
 //route everything else through app
 app.get('*', function(req, res) {

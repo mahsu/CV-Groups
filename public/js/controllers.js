@@ -65,17 +65,16 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scop
     });
 
     //Uncomment when logged in to get userGroups
-    /*
+
     $http.get('/api/users/viewGroup')
         .success(function(data, status, headers, config) {
             console.log("trying to get user groups");
-            $scope.userGroups = data;
+            $scope.userGroups = data.res;
             console.log("get user groups succeeded, data in var userGroups");
         })
         .error(function (data, status, headers, config) {
             console.log("failure");
         });
-        */
 }]);
 
 function geoCode(address, callback) {
