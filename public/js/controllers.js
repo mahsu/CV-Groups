@@ -221,29 +221,31 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', functi
 
 
     $scope.getPosts = function(callback){
-        console.log($location.search())
-            $http({
-                method: 'GET',
-                url: '/api/groups/showposts/'+$location.search().group,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                transformRequest: function (obj) {
-                    var str = [];
-                    for (var p in obj)
-                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                    return str.join("&");
-                },
-                data: {}
-            }).success(function (data, status, headers, config) {
-                console.log("showed Posts");
-                console.log(data);
-                data.res.forEach(function (e) {
-                    //console.log(e.posts);
-                    $scope.messages.push(e);
-                });
-                //console.log($scope.messages);
-            }).error(function (data, status, headers, config) {
-                console.log("posts failed");
+        $http({
+            method: 'GET',
+            url: '/api/groups/showposts/Test',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function (obj) {
+                var str = [];
+                for (var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: {}
+        }).success(function (data, status, headers, config) {
+            console.log("showed Posts");
+            console.log(data);
+            data.res.forEach(function (e) {
+                //console.log(e.posts);
+
+                e.comments = $scope.getComments(e._id);
+
+                $scope.messages.push(e);
             });
+            //console.log($scope.messages);
+        }).error(function (data, status, headers, config) {
+            console.log("posts failed");
+        });
     };
 
     $scope.makePost = function(groupName, body, tags){
@@ -268,12 +270,45 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', functi
         });
     };
 
-    $scope.getComments = function(){
-
+    $scope.getComments = function(postid){
+        $http({
+            method: 'GET',
+            url: '/api/users/showcomments/',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function (obj) {
+                var str = [];
+                for (var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: {'_id': postid}
+        }).success(function (data, status, headers, config) {
+            console.log(data);
+            return data;
+            //console.log($scope.messages);
+        }).error(function (data, status, headers, config) {
+            console.log("posts failed");
+        });
     };
 
-    $scope.addComments = function() {
-
+    $scope.addComments = function(postid, commentText, groupName) {
+        $http({
+            method: 'POST',
+            url: '/api/users/addcomment',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: {groupname: groupName, commentbody: commentText, postid: postid}
+        }).success(function (data, status, headers, config) {
+            console.log("add comment success!");
+            $scope.getPosts();
+        }).error(function(data,status,headers,config){
+            console.log("stfu");
+        });
     };
 
     $scope.addUpvote = function() {
@@ -287,8 +322,34 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', functi
     $scope.getPosts();
 }]);
 
-app.controller('car.ctrl', ['$scope', '$http', '$mdToast', function ($scope, $http, $mdToast) {
+app.controller('car.ctrl', ['$scope', '$http', '$mdToast', '$location', function ($scope, $http, $mdToast, $location) {
+    $scope.messages=[];
 
+    $scope.getNearby = function(){
+        //console.log($location.search())
+        $http({
+            method: 'GET',
+            url: '/api/carpool/nearby',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function (obj) {
+                var str = [];
+                for (var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: {}
+        }).success(function (data, status, headers, config) {
+            console.log("showed nearby");
+            console.log(data);
+            //console.log($scope.messages);
+            $scope.messages = data;
+        }).error(function (data, status, headers, config) {
+            console.log("nearby failed");
+            console.log(data);
+        });
+    };
+
+    $scope.getNearby();
 }]);
 
 function geoCode(address, callback) {

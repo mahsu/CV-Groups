@@ -36,7 +36,7 @@ UserSchema.virtual('address.full').get(function () {
     return this.address.street + ' ' + this.address.city + ', ' + this.address.state + ' ' + this.address.zip;
 });
 
-UserSchema.methods.findNearby = function (maxdist, callback) {
+UserSchema.statics.findNearby = function (user, maxdist, callback) {
     var _this = this;
     _this.geoNear(this.loc, {
         maxDistance: maxdist,
