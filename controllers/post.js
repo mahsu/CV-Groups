@@ -167,6 +167,31 @@ postcontroller.viewAll = function (req, res, next) {
     }
     
 };
+postcontroller.showComments = function (req, res, next) {
+    var getcomment = Post.findOne({ '_id': req.params.id }, 'comments', function (err, data) {
+        if (err || !data) {
+            resultJson.status = 0;
+            resultJson.res = err;
+            res.send(resultJson);
+        }
+        else {
+            
+                getcomment.populate('comments').exec(function (err, postData) {
+                    if (err) {
+                        resultJson.status = 0;
+                        resultJson.res = err;
+                        res.send(resultJson);
+                    }
+                    else {
+                        resultJson.res = postData;
+                        res.send(resultJson);
+                    }
+                });
+            }
+        
+    });
+
+};
 
 //view individual posts by user
 postcontroller.viewPost = function (req, res, next) {

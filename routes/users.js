@@ -25,6 +25,8 @@ router.get('/deletepost/:id', postcontroller.deletePost);
 router.get('/upvote/:id', postcontroller.upvote);
 router.get('/downvote/:id', postcontroller.downvote);
 
+router.get('/showcomments/:id', postcontroller.showComments);
+
 
 router.post('/addpost', postcontroller.addPost);
 router.post('/addcomment', postcontroller.addComment);
