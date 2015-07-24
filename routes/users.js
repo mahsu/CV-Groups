@@ -22,6 +22,4 @@ router.get('/viewpost/:id', postcontroller.viewPost);
 router.get('/deletepost/:id', postcontroller.deletePost);
 
 router.post('/addpost', postcontroller.addPost);
-
-
 module.exports = router;
