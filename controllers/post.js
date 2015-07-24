@@ -131,7 +131,7 @@ postcontroller.deletePost = function (req, res, next) {
                 resultJson.res = "Post was successfully removed ";
                 res.send(resultJson);
             }
-        })
+        }))
     }
     
 };
