@@ -11,6 +11,9 @@ groupcontroller.add = function (req, res, next) {
         name: req.body.groupname,
         type: req.body.grouptype,
         description: req.body.description,
+        users: [req.user._id],
+        owner: req.user._id,
+        moderators: [req.user._id]
     });
     group.save(function (err, data) {
         if (err) {
@@ -42,19 +45,43 @@ groupcontroller.delete = function (req, res, next) {
 
 groupcontroller.showAll = function (req, res, next) {
     var group = Group.find({}, 'name type description',function (err, data) {
-        res.send(data);
+        if (err) {
+            resultJson.status = 0;
+            resultJson.res = err;
+            res.send(resultJson);
+        }
+        else {
+            resultJson.res = data;
+            res.send(resultJson);
+        }
     });
 };
 
 groupcontroller.findGroupByName = function (req, res, next) {
     var group = Group.findOne({ 'name': req.params.groupname }, 'name type description', function (err, data) {
-        res.send(data);
+        if (err) {
+            resultJson.status = 0;
+            resultJson.res = err;
+            res.send(resultJson);
+        }
+        else {
+            resultJson.res = data;
+            res.send(resultJson);
+        }
     });
 };
 
 groupcontroller.findGroupByType = function (req, res, next) {
     var group = Group.find({ 'type': req.params.grouptype }, 'name type description', function (err, data) {
-        res.send(data);
+        if (err) {
+            resultJson.status = 0;
+            resultJson.res = err;
+            res.send(resultJson);
+        }
+        else {
+            resultJson.res = data;
+            res.send(resultJson);
+        }
     });
 };
 
