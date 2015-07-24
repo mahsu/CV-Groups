@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="/css/login.css">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
 
 <body layout="column">
 <md-toolbar layout="row">
@@ -18,8 +18,15 @@
         <h1>Current Groups</h1>
     </md-sidenav>
     <div layout="column" flex id="content">
-        <md-content layout="column" flex class="md-padding">
-            <input type="text" placeholder="Search for a Group!" ng-model="searchInput"/>
+        <md-content layout="column" layout-padding flex class="md-padding">
+                <form name="userForm">
+                    <div layout>
+                        <md-input-container flex>
+                            <label>Search for a group!</label>
+                            <input type="text" ng-model="searchInput">
+                        </md-input-container>
+                    </div>
+                    </form>
 
             <!-- Uncomment this line to test value of searchInput -->
             <!-- <p>{{searchInput}}</p> -->
