@@ -7,7 +7,7 @@ var auth = require('../controllers/auth');
 router.post('/register', auth.register, function(req, res, next) {
 });
 
-router.post('/login', passport.authenticate('local'));
+router.post('/login', auth.login);
 
 router.get('/logout', auth.logout);
 
