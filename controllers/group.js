@@ -30,7 +30,7 @@ groupcontroller.add = function (req, res, next) {
 };
 
 groupcontroller.delete = function (req, res, next) {
-    var group = Group.findOne({ 'name': req.body.groupname }).remove(function (err, data) {
+    var group = Group.findOne({'name': req.body.groupname}).remove(function (err, data) {
         if (err) {
             resultJson.status = 0;
             resultJson.res = "Group deletion failed";
@@ -44,7 +44,7 @@ groupcontroller.delete = function (req, res, next) {
 };
 
 groupcontroller.showAll = function (req, res, next) {
-    var group = Group.find({}, 'name type description',function (err, data) {
+    var group = Group.find({}, 'name type description', function (err, data) {
         if (err) {
             resultJson.status = 0;
             resultJson.res = err;
@@ -58,22 +58,39 @@ groupcontroller.showAll = function (req, res, next) {
 };
 
 groupcontroller.showAllPosts = function (req, res, next) {
-    var group = Group.find({'name': req.params.groupname}, 'posts').populate('posts').exec(function (err, postData) {
-        if (err) {
+    var group = Group.findOne({'name': req.params.groupname}, 'users posts', function (err, data) {
+        if (err || !data) {
             resultJson.status = 0;
             resultJson.res = err;
             res.send(resultJson);
         }
         else {
-            resultJson.res = postData;
-            res.send(resultJson);
+            var index = data.users.indexOf(req.user._id);
+            if (index == -1) {
+                resultJson.status = 0;
+                resultJson.res = "You are not a member of this group";
+                res.send(resultJson);
+            }
+            else {
+                group.populate('posts').exec(function (err, postData) {
+                    if (err) {
+                        resultJson.status = 0;
+                        resultJson.res = err;
+                        res.send(resultJson);
+                    }
+                    else {
+                        resultJson.res = postData.posts;
+                        res.send(resultJson);
+                    }
+                });
+            }
         }
     });
 
 };
 
 groupcontroller.findGroupByName = function (req, res, next) {
-    var group = Group.findOne({ 'name': req.params.groupname }, 'name type description', function (err, data) {
+    var group = Group.findOne({'name': req.params.groupname}, 'name type description', function (err, data) {
         if (err) {
             resultJson.status = 0;
             resultJson.res = err;
@@ -87,7 +104,7 @@ groupcontroller.findGroupByName = function (req, res, next) {
 };
 
 groupcontroller.findGroupByType = function (req, res, next) {
-    var group = Group.find({ 'type': req.params.grouptype }, 'name type description', function (err, data) {
+    var group = Group.find({'type': req.params.grouptype}, 'name type description', function (err, data) {
         if (err) {
             resultJson.status = 0;
             resultJson.res = err;

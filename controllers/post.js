@@ -89,7 +89,7 @@ postcontroller.addComment = function (req, res, next) {
                 }
                 else {
                     var findPost = Post.findOne({ '_id': req.body.postid }, function (err, postData) {
-                        if (err) {
+                        if (err||!postData) {
                             resultJson.status = 0;
                             resultJson.res = "Post not found";
                             res.send(resultJson);
@@ -202,5 +202,80 @@ postcontroller.deletePost = function (req, res, next) {
     
 };
 
+//view individual posts by user
+postcontroller.upvote = function (req, res, next) {
+    
+    if (!req.user._id) {
+        resultJson.status = 0;
+        resultJson.res = "No user id found";
+        res.send(resultJson);
+    }
+    else {
+        var group = Post.findOne({ '_id': req.params.id }, function (err, data) {
+            if (err) {
+                resultJson.status = 0;
+                resultJson.res = "Cannot find the post you are looking for";
+                res.send(resultJson);
+            }
+            else {
+                var index = data.downvoted_by.indexOf(req.user._id);
+                if (index > -1) {
+                    data.downvoted_by.splice(index, 1);
+                }
+                data.upvoted_by.push(req.user._id);
+                data.save(function (err) {
+                    if (err) {
+                        resultJson.status = 0;
+                        resultJson.res = "Failed to upvote";
+                        res.send(resultJson);
+                    }
+                    else {
+                        resultJson.res = "Post successfully upvoted";
+                        res.send(resultJson);
+                    }
+                });
+            }
+        });
+    }
+    
+};
+
+//view individual posts by user
+postcontroller.downvote = function (req, res, next) {
+    
+    if (!req.user._id) {
+        resultJson.status = 0;
+        resultJson.res = "No user id found";
+        res.send(resultJson);
+    }
+    else {
+        var group = Post.findOne({ '_id': req.params.id }, function (err, data) {
+            if (err) {
+                resultJson.status = 0;
+                resultJson.res = "Cannot find the post you are looking for";
+                res.send(resultJson);
+            }
+            else {
+                var index = data.upvoted_by.indexOf(req.user._id);
+                if (index > -1) {
+                    data.upvoted_by.splice(index, 1);
+                }
+                data.downvoted_by.push(req.user._id);
+                data.save(function (err) {
+                    if (err) {
+                        resultJson.status = 0;
+                        resultJson.res = "Failed to downvote";
+                        res.send(resultJson);
+                    }
+                    else {
+                        resultJson.res = "Post successfully downvoted";
+                        res.send(resultJson);
+                    }
+                });
+            }
+        });
+    }
+    
+};
 
 module.exports = postcontroller;
