@@ -9,13 +9,20 @@ app.controller('login.ctrl', ['$scope', '$http', '$location', function ($scope, 
                 abbrev: state
             };
         });
-    $scope.login = function (user) {
+
+    $scope.login = function (user, valid) {
+        console.log(valid);
         $http.post('/api/auth/login', user)
             .success(function (data) {
                 $location.path('/landing');
             })
             .error(function (data, status, headers) {
-                //todo handle error
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content('Invalid Username/Password.')
+                        .position("top left right")
+                        .hideDelay(2000)
+                );
                 console.log(data, status, headers);
             })
     };
@@ -24,6 +31,12 @@ app.controller('login.ctrl', ['$scope', '$http', '$location', function ($scope, 
         geoCode(user.address, function (err, loc) {
             if (err) {
                 console.log("geocoding error");
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content('Unable to geocode address. Please check address.')
+                        .position("top left right")
+                        .hideDelay(2000)
+                );
             }
             else {
                 user.loc = loc;
@@ -34,7 +47,12 @@ app.controller('login.ctrl', ['$scope', '$http', '$location', function ($scope, 
                     $location.path('/landing');
                 })
                 .error(function (data, status, headers) {
-                    //todo handle error
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Unable to complete user registration.')
+                            .position("top left right")
+                            .hideDelay(2000)
+                    );
                     console.log(data, status, headers);
                 });
             console.log(user);
