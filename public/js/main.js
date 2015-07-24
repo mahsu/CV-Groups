@@ -42,6 +42,10 @@ angular.module('cvgroups', ['ngMap', 'ngAnimate', 'ngRoute', 'ngMaterial', 'cvgr
                 templateUrl: 'partials/login',
                 controller: "login.ctrl"
             })
+            .when('/landing', {
+                templateUrl: 'partials/landing',
+                controller: "landing.ctrl"
+            })
             .when('/register', {
                 templateUrl: 'partials/register'
             })
