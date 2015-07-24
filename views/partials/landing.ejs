@@ -64,7 +64,7 @@
                 <h2>User Groups </h2>
 
                 <div ng-repeat="group in userGroups|filter:searchInput" ng-init="group.show = false">
-                    <md-button class="md-raised md-primary buttonLarge" ng-click="group.show=!group.show">
+                    <md-button class="md-raised md-primary buttonLarge" ng-click="group.show=!group.show; tempName = group.name">
                         {{ group.name }}
                     </md-button>
 
@@ -78,7 +78,7 @@
 
                         <p>{{group.description}}</p>
 
-                        <md-button ng-click="" class="md-raised md-primary buttonLarge">Leave Group</md-button>
+                        <md-button ng-click="leaveGroup(tempName)" class="md-raised md-primary buttonLarge">Leave Group</md-button>
                     </div>
                 </div>
 

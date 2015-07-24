@@ -57,6 +57,21 @@ groupcontroller.showAll = function (req, res, next) {
     });
 };
 
+groupcontroller.showAllPosts = function (req, res, next) {
+    var group = Group.find({'name': req.params.groupname}, 'posts').populate('posts').exec(function (err, postData) {
+        if (err) {
+            resultJson.status = 0;
+            resultJson.res = err;
+            res.send(resultJson);
+        }
+        else {
+            resultJson.res = postData;
+            res.send(resultJson);
+        }
+    });
+
+};
+
 groupcontroller.findGroupByName = function (req, res, next) {
     var group = Group.findOne({ 'name': req.params.groupname }, 'name type description', function (err, data) {
         if (err) {
