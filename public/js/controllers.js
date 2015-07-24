@@ -9,3 +9,7 @@ controller.controller('login', function () {
             };
         });
 });
+
+controller.controller('landing.ctrl', ['$rootScope',function($rootScope){
+    
+}]);
