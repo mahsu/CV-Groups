@@ -9,7 +9,7 @@ resultJson.res = "";
 
 //adding post in a group
 postcontroller.addPost = function (req, res, next) {
-
+    console.log(req.user);
     if (!req.user._id) {
         resultJson.status = 0;
         resultJson.res = "No user id found";
@@ -30,6 +30,7 @@ postcontroller.addPost = function (req, res, next) {
                     res.send(resultJson);
                 }
                 else {
+                    console.log(req.user.name);
                     var newPost = new Post({
                         //todo add more fields
                         body: req.body.postbody,

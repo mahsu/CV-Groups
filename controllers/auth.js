@@ -26,8 +26,8 @@ auth.register = function register(req, res, next) {
         email: req.body.email,
         address: req.body.address,
         name: {
-            first: req.body.firstname,
-            last: req.body.last
+            first: req.body.name.first,
+            last: req.body.name.last
         },
         loc: point
     });

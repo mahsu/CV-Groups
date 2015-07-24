@@ -8,8 +8,9 @@ var postSchema = new mongoose.Schema({
     author: {
         _id: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
         name: {
-            first: String,
-            last: String
+            last: String,
+            first: String
+
         }
     },
     tags: [String],
