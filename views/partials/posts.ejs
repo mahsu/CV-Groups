@@ -1,11 +1,8 @@
 <body>
 
 <div layout="column" class="inputdemoBasicUsage" ng-app="MyApp">
-
     <md-whiteframe class="md-whiteframe-z1 newPostFrame" layout="" layout-align="center center">
-
         <md-content class="newPostContent" layout-padding="">
-
             <form name="userForm" ng-submit="newPost()">
 
                 <div layout=" " layout-sm="column" ng-hide="true">
@@ -16,11 +13,13 @@
                     </md-input-container>
                 </div>
 
-                <md-input-container flex=""  md-no-float="" >
-                    <textarea name="postText" ng-model="postText" placeholder="Write Something.." columns="1" md-maxlength="140"></textarea>
+                <md-input-container flex="" md-no-float="">
+                    <textarea name="postText" ng-model="postText" placeholder="Write Something.." columns="1"
+                              md-maxlength="140"></textarea>
                 </md-input-container>
                 <div class="newPostButtonRow">
                     <i class="fa fa-camera"></i>
+
                     <div class="newPostButton">
                         <md-button class="md-raised md-primary">Post</md-button>
                     </div>
@@ -35,6 +34,7 @@
         <md-card-content>
             <h2 class="md-title">FirstN LastN</h2>
             <h6>9:20 AM 22 Jul</h6>
+
             <p>
                 The titles of Washed Out's breakthrough song and the first single from Paracosm share the
                 two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
@@ -53,6 +53,7 @@
                     <div class="md-list-item-text">
                         <h3>{{item.what}}</h3>
                         <h4>{{item.when}}</h4>
+
                         <p>{{item.notes}}</p>
                     </div>
                     <md-divider ng-if="!$last"></md-divider>
@@ -60,7 +61,7 @@
             </md-list>
         </md-content>
 
-        <md-divider ></md-divider>
+        <md-divider></md-divider>
 
 
         <md-input-container md-no-float="" layout="row" class="commentSection">

@@ -179,6 +179,8 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scop
 }]);
 
 app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', function ($scope, $http, $mdToast) {
+    $scope.postText = "";
+
     $scope.user = {
         title: 'Developer',
         email: 'ipsum@lorem.com',
@@ -195,14 +197,7 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', function ($scope, $
     $scope.newPost = function () {
         if (typeof $scope.postText !== "undefined" && $scope.postText != "") {
             console.log("new posted - " + $scope.postText);
-            /*      $http.post('newPost.do', {
-             params : {
-             //user : $req.user,
-             //group : $scope.group,
-             postText : $scope.postText
-             }
-             }); */
-            $scope.postText = "";
+            $scope.makePost("Test", $scope.postText, "");
             $scope.showSimpleToast();
         }
     };
@@ -219,31 +214,31 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', function ($scope, $
         who: '9:50AM 22 Jul',
         when: '3:08PM',
         notes: " I'll be in your neighborhood doing errands"
-    }, {
-
-        what: 'Commenter name2',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: " I'll be in your neighborhood doing errands"
-    }, {
-
-        what: 'Brunch this weekend?',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: " I'll be in your neighborhood doing errands"
-    }, {
-
-        what: 'Brunch this weekend?',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: " I'll be in your neighborhood doing errands"
-    }, {
-
-        what: 'Brunch this weekend?',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: " I'll be in your neighborhood doing errands"
     }];
+
+
+    $scope.getPosts = function(){
+
+    };
+
+    $scope.makePost = function(groupName, body, tags){
+        $http({
+            method: 'POST',
+            url: '/api/users/addPost',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: {groupname: groupName, postbody: body, posttags: tags}
+        }).success(function (data, status, headers, config) {
+            console.log("post success!");
+        }).error(function(data,status,headers,config){
+            console.log("stfu");
+        });
+    };
 }]);
 
 function geoCode(address, callback) {
