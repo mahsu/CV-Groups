@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 
 
 var commentSchema = new mongoose.Schema({
-    created_at: {type: Date, defualt: Date.now},
+    created_at: {type: Date, default: Date.now},
     modified_at: {type: Date},
     body: String,
     author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
