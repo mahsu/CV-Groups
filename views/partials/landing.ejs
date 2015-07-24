@@ -32,9 +32,12 @@
             <!-- <p>{{searchInput}}</p> -->
 
             <h2>Current Groups</h2>
-            <md-button class="md-raised md-primary buttonLarge" ng-repeat="group in groups|filter:searchInput">{{ group.name }} </md-button>
+            <md-button class="md-raised md-primary buttonLarge" ng-repeat="group in allGroups|filter:searchInput">{{ group.name }} </md-button>
 
             <md-button class="md-raised md-primary buttonLarge">Add Groups</md-button>
+
+            <h2>User Groups </h2>
+            <md-button class="md-raised md-primary buttonLarge" ng-repeat="group in userGroups|filter:searchInput">{{ group.name }} </md-button>
         </md-content>
     </div>
 </div>
