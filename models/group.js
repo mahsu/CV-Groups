@@ -10,7 +10,9 @@ var groupSchema = new mongoose.Schema({
     name: { type: String, index: { unique: true } },
     type: { type: String, enum: grouptypes },
     description: { type: String },
-    users: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    moderators: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }]
 });
 
