@@ -282,6 +282,10 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', function ($scope, $
     $scope.getPosts();
 }]);
 
+app.controller('car.ctrl', ['$scope', '$http', '$mdToast', function ($scope, $http, $mdToast) {
+
+}]);
+
 function geoCode(address, callback) {
     if (typeof address == 'object') {
         address = address.street + " " + address.city + ", " + address.state + " " + address.zip;
