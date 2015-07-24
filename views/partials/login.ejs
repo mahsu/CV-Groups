@@ -15,17 +15,22 @@
             <md-tabs md-dynamic-height="" md-border-bottom="">
                 <md-tab label="Login">
                     <md-content layout-padding="">
-                        <form name="loginForm" ng-submit="login(user, user.$valid)">
+                        <form name="loginForm" ng-submit="login(user, loginForm.$valid)" novalidate>
                             <div layout="" layout-sm="column">
                                 <md-input-container flex="">
                                     <label>Email</label>
-                                    <input type="email" ng-model="user.email">
+                                    <input type="email" name="email" ng-model="user.email" required>
+                                    <div ng-messages="loginForm.email.$error" ng-if="!loginForm.email.$pristine">
+                                        <div ng-message="required">Please enter an email.</div>
+                                        <div ng-message="email">Please enter a valid email.</div>
+                                    </div>
                                 </md-input-container>
+
                             </div>
                             <div layout="" layout-sm="column">
                                 <md-input-container flex="">
                                     <label>Password</label>
-                                    <input type="password" ng-model="user.password">
+                                    <input type="password" ng-model="user.password" required>
                                 </md-input-container>
                             </div>
                             <md-button type="submit" class="md-raised md-primary buttonLarge">Log In
@@ -35,51 +40,78 @@
                 </md-tab>
                 <md-tab label="Register">
                     <md-content layout-padding="">
-                        <form name="registrationForm" ng-submit="register(user, user.$valid)">
+                        <form name="registrationForm" ng-submit="register(user, registrationForm.$valid)" novalidate>
                             <div layout="" layout-sm="column">
                                 <md-input-container flex="">
                                     <label>Email</label>
-                                    <input ng-model="user.email" type="email">
+                                    <input ng-model="user.email" name="email" type="email" required>
+                                    <div ng-messages="registrationForm.email.$error" ng-if="!registrationForm.email.$pristine">
+                                        <div ng-message="required">Please enter an email.</div>
+                                        <div ng-message="email">Please enter a valid email.</div>
+                                    </div>
                                 </md-input-container>
                             </div>
                             <div layout="" layout-sm="column">
                                 <md-input-container flex="">
                                     <label>Password</label>
-                                    <input ng-model="user.password" type="password">
+                                    <input ng-model="user.password" name="password" type="password" required minlength="6">
+                                    <div ng-messages="registrationForm.password.$error" ng-if="!registrationForm.password.$pristine">
+                                        <div ng-message="required">Please enter a password.</div>
+                                        <div ng-message="minlength">Please enter at least 6 characters.</div>
+                                    </div>
                                 </md-input-container>
                             </div>
                             <div layout="" layout-sm="column">
                                 <md-input-container flex="">
                                     <label>First name</label>
-                                    <input ng-model="user.name.last">
+                                    <input ng-model="user.name.last" name="firstname" type="text" required>
+                                    <div ng-messages="registrationForm.lastname.$error" ng-if="!registrationForm.lastname.$pristine">
+                                        <div ng-message="required">Please enter a lsat name.</div>
+                                    </div>
                                 </md-input-container>
                                 <md-input-container flex="">
                                     <label>Last Name</label>
-                                    <input ng-model="user.name.first">
+                                    <input ng-model="user.name.first" name="firstname" type="text" required>
+                                    <div ng-messages="registrationForm.firstname.$error" ng-if="!registrationForm.firstname.$pristine">
+                                        <div ng-message="required">Please enter a first name.</div>
+                                    </div>
                                 </md-input-container>
                             </div>
                             <div layout="" layout-sm="column">
                                 <md-input-container flex="">
                                     <label>Address</label>
-                                    <input ng-model="user.address.street" type="text">
+                                    <input ng-model="user.address.street" name="street" type="text" required>
+                                    <div ng-messages="registrationForm.street.$error" ng-if="!registrationForm.street.$pristine">
+                                        <div ng-message="required">Please enter a street.</div>
+                                    </div>
                                 </md-input-container>
                             </div>
                             <div layout="" layout-sm="column">
                                 <md-input-container>
                                     <label>City</label>
-                                    <input type="text" ng-model="user.address.city">
+                                    <input type="text" ng-model="user.address.city" name="city" required>
+                                    <div ng-messages="registrationForm.city.$error" ng-if="!registrationForm.city.$pristine">
+                                        <div ng-message="required">Please enter a city.</div>
+                                    </div>
                                 </md-input-container>
-                                <md-select placeholder="State" ng-model="user.address.state">
+                                <md-select placeholder="State" name="state" ng-model="user.address.state" required>
                                     <md-option data-ng-repeat="state in states" value="{{state.abbrev}}">
                                         {{state.abbrev}}
                                     </md-option>
                                 </md-select>
+                                <div ng-messages="registrationForm.state.$error" ng-if="!registrationForm.state.$pristine">
+                                    <div ng-message="required">Please select a state.</div>
+                                </div>
                                 <md-input-container flex="">
                                     <label>Postal Code</label>
-                                    <input ng-model="user.address.zip">
+                                    <input ng-model="user.address.zip" name="zip" required minlength="5" md-maxlength="5">
+                                    <div ng-messages="registrationForm.zip.$error" ng-if="!registrationForm.zip.$pristine">
+                                        <div ng-message="required">Please enter a zip code.</div>
+                                        <div ng-message="md-maxlength">Please enter a valid zip code.</div>
+                                    </div>
                                 </md-input-container>
                             </div>
-                            <md-button class="md-raised md-primary buttonLarge">Register
+                            <md-button class="md-raised md-primary buttonLarge" ng-disabled="registrationForm.$invalid">Register
                             </md-button>
                         </form>
                     </md-content>
@@ -87,6 +119,5 @@
             </md-tabs>
         </md-content>
     </md-whiteframe>
-
 </div>
 </body>
