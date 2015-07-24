@@ -220,20 +220,12 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', functi
 
     $scope.messages = [];
 
-
-<<<<<<< HEAD
-    $scope.getPosts = function(callback){
-        $http({
-            method: 'GET',
-            url: '/api/groups/showposts/Test',
-=======
     $scope.getPosts = function (callback) {
         $scope.messages = [];
         console.log($location.search());
         $http({
             method: 'GET',
             url: '/api/groups/showposts/' + $location.search().group,
->>>>>>> 40d347d4d28eb6761deb54de8d870bf5c3a5b9cd
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             transformRequest: function (obj) {
                 var str = [];
@@ -247,12 +239,6 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', functi
             console.log(data);
             data.res.forEach(function (e) {
                 //console.log(e.posts);
-<<<<<<< HEAD
-
-                e.comments = $scope.getComments(e._id);
-
-=======
->>>>>>> 40d347d4d28eb6761deb54de8d870bf5c3a5b9cd
                 $scope.messages.push(e);
             });
             //console.log($scope.messages);
