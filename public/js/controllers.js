@@ -1,8 +1,8 @@
 "use strict";
 var app = angular.module('cvgroups.controllers', ['ngMessages']);
 
-app.filter('reverse', function() {
-    return function(items) {
+app.filter('reverse', function () {
+    return function (items) {
         return items.slice().reverse();
     };
 });
@@ -67,7 +67,7 @@ app.controller('login.ctrl', ['$scope', '$http', '$location', '$mdToast', functi
     }
 }]);
 
-app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', '$location','$mdToast', function ($scope, $http, $mdSidenav, $location,$mdToast) {
+app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', '$location', '$mdToast', function ($scope, $http, $mdSidenav, $location, $mdToast) {
     $scope.toggleSidenav = function (menuId) {
         $mdSidenav(menuId).toggle();
     };
@@ -138,14 +138,14 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', '$location','$m
             });
     };
 
-    $scope.joinGroup = function(inputName) {
+    $scope.joinGroup = function (inputName) {
         $http({
             method: 'POST',
             url: '/api/users/addgroup',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            transformRequest: function(obj) {
+            transformRequest: function (obj) {
                 var str = [];
-                for(var p in obj)
+                for (var p in obj)
                     str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
@@ -155,20 +155,20 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', '$location','$m
             $scope.loadAllGroups();
             $scope.loadUserGroups();
             $scope.showSimpleToast("Successfully joined " + inputName);
-        }).error(function(data,status,headers,config){
+        }).error(function (data, status, headers, config) {
             console.log("error in joining group");
             $scope.showSimpleToast("Error joining " + inputName);
         });
     };
 
-    $scope.leaveGroup = function(inputName) {
+    $scope.leaveGroup = function (inputName) {
         $http({
             method: 'POST',
             url: '/api/users/removegroup',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            transformRequest: function(obj) {
+            transformRequest: function (obj) {
                 var str = [];
-                for(var p in obj)
+                for (var p in obj)
                     str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
@@ -178,7 +178,7 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', '$location','$m
             $scope.showSimpleToast("Successfully left " + inputName);
             $scope.loadAllGroups();
             $scope.loadUserGroups();
-        }).error(function(data,status,headers,config){
+        }).error(function (data, status, headers, config) {
             $scope.showSimpleToast("Error leaving " + inputName);
             console.log("error in removing from group");
         });
@@ -216,44 +216,45 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', functi
                 .position('top left right')
                 .hideDelay(2000)
         );
-    };;
+    };
+    ;
     $scope.messages = [];
 
 
-    $scope.getPosts = function(callback){
+    $scope.getPosts = function (callback) {
         console.log($location.search())
-            $http({
-                method: 'GET',
-                url: '/api/groups/showposts/'+$location.search().group,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                transformRequest: function (obj) {
-                    var str = [];
-                    for (var p in obj)
-                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                    return str.join("&");
-                },
-                data: {}
-            }).success(function (data, status, headers, config) {
-                console.log("showed Posts");
-                console.log(data);
-                data.res.forEach(function (e) {
-                    //console.log(e.posts);
-                    $scope.messages.push(e);
-                });
-                //console.log($scope.messages);
-            }).error(function (data, status, headers, config) {
-                console.log("posts failed");
+        $http({
+            method: 'GET',
+            url: '/api/groups/showposts/' + $location.search().group,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function (obj) {
+                var str = [];
+                for (var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: {}
+        }).success(function (data, status, headers, config) {
+            console.log("showed Posts");
+            console.log(data);
+            data.res.forEach(function (e) {
+                //console.log(e.posts);
+                $scope.messages.push(e);
             });
+            //console.log($scope.messages);
+        }).error(function (data, status, headers, config) {
+            console.log("posts failed");
+        });
     };
 
-    $scope.makePost = function(groupName, body, tags){
+    $scope.makePost = function (groupName, body, tags) {
         $http({
             method: 'POST',
             url: '/api/users/addPost',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            transformRequest: function(obj) {
+            transformRequest: function (obj) {
                 var str = [];
-                for(var p in obj)
+                for (var p in obj)
                     str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
@@ -262,25 +263,42 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', functi
             $scope.showSimpleToast("Posted!!!!!");
             console.log("post success!");
             $scope.getPosts();
-        }).error(function(data,status,headers,config){
+        }).error(function (data, status, headers, config) {
             $scope.showSimpleToast("Failed to post. Please make sure you are part of the group first.");
             console.log("stfu");
         });
     };
 
-    $scope.getComments = function(){
+    $scope.getComments = function () {
 
     };
 
-    $scope.addComments = function() {
+    $scope.addComments = function () {
 
     };
 
-    $scope.addUpvote = function() {
-
+    $scope.addUpvote = function (post) {
+        $http({
+            method: 'POST',
+            url: '/api/users/upvote/' + post._id,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function (obj) {
+                var str = [];
+                for (var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            }
+        }).success(function (data, status, headers, config) {
+            $scope.showSimpleToast("Posted!!!!!");
+            console.log("post success!");
+            $scope.getPosts();
+        }).error(function (data, status, headers, config) {
+            $scope.showSimpleToast("Failed to post. Please make sure you are part of the group first.");
+            console.log("stfu");
+        });
     };
 
-    $scope.addDownvote = function() {
+    $scope.addDownvote = function (postId) {
 
     };
 

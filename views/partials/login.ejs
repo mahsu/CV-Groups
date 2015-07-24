@@ -64,16 +64,16 @@
                             <div layout="" layout-sm="column">
                                 <md-input-container flex="">
                                     <label>First name</label>
-                                    <input ng-model="user.name.last" name="lastname" type="text" required>
-                                    <div ng-messages="registrationForm.lastname.$error" ng-if="!registrationForm.lastname.$pristine">
-                                        <div ng-message="required">Please enter a last name.</div>
+                                    <input ng-model="user.name.first" name="firstname" type="text" required>
+                                    <div ng-messages="registrationForm.firstname.$error" ng-if="!registrationForm.firstname.$pristine">
+                                        <div ng-message="required">Please enter a first name.</div>
                                     </div>
                                 </md-input-container>
                                 <md-input-container flex="">
                                     <label>Last Name</label>
-                                    <input ng-model="user.name.first" name="firstname" type="text" required>
-                                    <div ng-messages="registrationForm.firstname.$error" ng-if="!registrationForm.firstname.$pristine">
-                                        <div ng-message="required">Please enter a first name.</div>
+                                    <input ng-model="user.name.last" name="lastname" type="text" required>
+                                    <div ng-messages="registrationForm.lastname.$error" ng-if="!registrationForm.lastname.$pristine">
+                                        <div ng-message="required">Please enter a last name.</div>
                                     </div>
                                 </md-input-container>
                             </div>

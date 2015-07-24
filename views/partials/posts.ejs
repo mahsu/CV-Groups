@@ -57,7 +57,7 @@
     </md-card>
     <md-card class="postCard" ng-repeat="item in messages|reverse">
         <md-card-content>
-            <h2 class="md-title">FirstN LastN</h2>
+            <h2 class="md-title">{{item.author.name.first}} {{item.author.name.last}}</h2>
             <h6>{{item.created_at}}</h6>
 
             <p>
@@ -66,7 +66,7 @@
         </md-card-content>
         <div class="md-actions" layout="row" layout-align="end center">
             <md-button>..more</md-button>
-            <md-button><i class="fa fa-thumbs-o-up"></i> {{item.upvoted_by.length}}</md-button>
+            <md-button ng-click="upvo"><i class="fa fa-thumbs-o-up"></i> {{item.upvoted_by.length}}</md-button>
             <md-button><i class="fa fa-thumbs-o-down"></i> {{item.downvoted_by.length}}</md-button>
         </div>
 
