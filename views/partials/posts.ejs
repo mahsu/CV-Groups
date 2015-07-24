@@ -66,8 +66,8 @@
         </md-card-content>
         <div class="md-actions" layout="row" layout-align="end center">
             <md-button>..more</md-button>
-            <md-button ng-click="upvo"><i class="fa fa-thumbs-o-up"></i> {{item.upvoted_by.length}}</md-button>
-            <md-button><i class="fa fa-thumbs-o-down"></i> {{item.downvoted_by.length}}</md-button>
+            <md-button ng-click="addUpvote(item)" ><i class="fa fa-thumbs-o-up"></i> {{item.upvoted_by.length}}</md-button>
+            <md-button ng-click="addDownvote(item)" ><i class="fa fa-thumbs-o-down"></i> {{item.downvoted_by.length}}</md-button>
         </div>
 
         <md-divider ng-if="!$last"></md-divider>

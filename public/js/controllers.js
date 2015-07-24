@@ -217,12 +217,13 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', functi
                 .hideDelay(2000)
         );
     };
-    ;
+
     $scope.messages = [];
 
 
     $scope.getPosts = function (callback) {
-        console.log($location.search())
+        $scope.messages = [];
+        console.log($location.search());
         $http({
             method: 'GET',
             url: '/api/groups/showposts/' + $location.search().group,
@@ -278,6 +279,7 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', functi
     };
 
     $scope.addUpvote = function (post) {
+        console.log(post._id)
         $http({
             method: 'POST',
             url: '/api/users/upvote/' + post._id,
@@ -289,17 +291,33 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', functi
                 return str.join("&");
             }
         }).success(function (data, status, headers, config) {
-            $scope.showSimpleToast("Posted!!!!!");
-            console.log("post success!");
+            console.log(data);
+            console.log("up success");
             $scope.getPosts();
         }).error(function (data, status, headers, config) {
-            $scope.showSimpleToast("Failed to post. Please make sure you are part of the group first.");
-            console.log("stfu");
+            console.log("up failed");
         });
     };
 
-    $scope.addDownvote = function (postId) {
-
+    $scope.addDownvote = function (post) {
+        console.log(post._id)
+        $http({
+            method: 'POST',
+            url: '/api/users/downvote/' + post._id,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function (obj) {
+                var str = [];
+                for (var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            }
+        }).success(function (data, status, headers, config) {
+            console.log(data);
+            console.log("down success");
+            $scope.getPosts();
+        }).error(function (data, status, headers, config) {
+            console.log("down failed");
+        });
     };
 
     $scope.getPosts();
