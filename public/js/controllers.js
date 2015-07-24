@@ -228,10 +228,9 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', function ($scope, $
                 console.log("showed Posts");
                 console.log(data);
                 data.res.forEach(function (e) {
-                    console.log(e.posts);
-                    $scope.messages.push(e.posts);
+                    //console.log(e.posts);
+                    $scope.messages.push(e);
                 });
-                console.log($scope.messages);
                 //console.log($scope.messages);
             }).error(function (data, status, headers, config) {
                 console.log("posts failed");
