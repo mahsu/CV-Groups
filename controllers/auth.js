@@ -31,15 +31,14 @@ auth.register = function register(req, res, next) {
         },
         loc: point
     });
-    User.register(user, req.body.password, function (err) {
+    User.register(user, req.body.password, function (err, user) {
         if (err) {
             //todo handle errors
             console.log("Registration error: ", err);
             res.json(err);
-            return err;
+            return res.send(500);
         }
-        //todo redirect
-        res.sendStatus(200);
+        return res.send(200);
     })
 };
 
