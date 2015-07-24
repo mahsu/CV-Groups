@@ -36,11 +36,31 @@
                 <md-button class="md-raised md-primary buttonLarge" ng-repeat="group in allGroups|filter:searchInput">{{ group.name }} </md-button>
             </div>
 
-            <md-button class="md-raised md-primary buttonLarge">Add Groups</md-button>
 
-            <div>
+            <div ng-show="userGroups.length!=0">
                 <h2>User Groups </h2>
-                <md-button class="md-raised md-primary buttonLarge" ng-repeat="group in userGroups|filter:searchInput" ng-show="!userGroups.length">{{ group.name }} </md-button>
+                <md-button class="md-raised md-primary buttonLarge" ng-repeat="group in userGroups|filter:searchInput">{{ group.name }} </md-button>
+            </div>
+
+            <md-button class="md-raised md-primary buttonLarge" ng-click="addNewBool=!addNewBool">Add Groups</md-button>
+            <div ng-show="addNewBool">
+                <md-input-container flex>
+                    <label>Name of New Group</label>
+                    <input type="text" ng-model="searchInput">
+                </md-input-container>
+
+                <md-select placeholder="Type" ng-model="user.address.state">
+                    <md-option data-ng-repeat="state in states" value="{{state.abbrev}}">
+                        {{state.abbrev}}
+                    </md-option>
+                </md-select>
+
+                <md-input-container flex>
+                    <label>Description</label>
+                    <input type="text" ng-model="searchInput">
+                </md-input-container>
+
+                <md-button class="md-raised md-primary buttonLarge">Submit</md-button>
             </div>
         </md-content>
     </div>

@@ -50,14 +50,39 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scop
 
     $scope.searchInput = "";
 
+    $scope.newGroupName = "";
+    $scope.newGroupType = "";
+    $scope.newGroupDesc = "";
+
     $scope.allGroups = [];
     $scope.userGroups = [];
+
+    $scope.addNewBool = false;
+    $scope.newName = "";
+    $scope.submit = function(){
+        $http({
+            method: 'POST',
+            url: '/api/groups/add',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: {groupname: $scope.newGroupName, grouptype: $scope.newGroupType, description: $scope.newGroupDesc}
+        }).success(function (data, status, headers, config) {
+            console.log("new group submitted");
+        }).error(function(data,status,headers,config){
+           console.log("error in submitting new group");
+        });
+    };
 
     //Getting data for all Groups
     $http.get('/api/groups/showall')
         .success(function (data, status, headers, config) {
             console.log("trying to get /groups/showall");
-            $scope.allGroups = data;
+            $scope.allGroups = data.res;
             console.log("get succeeded, data in var allGroups");
         })
         .error(function (data, status, headers, config) {
