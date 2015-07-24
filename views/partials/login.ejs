@@ -15,26 +15,27 @@
             <md-tabs md-dynamic-height="" md-border-bottom="">
                 <md-tab label="Login">
                     <md-content layout-padding="">
-                        <form name="loginForm">
+                        <form name="loginForm" ng-submit="login(user, user.$valid)">
                             <div layout="" layout-sm="column">
                                 <md-input-container flex="">
                                     <label>Email</label>
-                                    <input type="email">
+                                    <input type="email" ng-model="user.email">
                                 </md-input-container>
                             </div>
                             <div layout="" layout-sm="column">
                                 <md-input-container flex="">
                                     <label>Password</label>
-                                    <input type="password">
+                                    <input type="password" ng-model="user.password">
                                 </md-input-container>
                             </div>
-                            <md-button class="md-raised md-primary buttonLarge">Log In</md-button>
+                            <md-button type="submit" class="md-raised md-primary buttonLarge">Log In
+                            </md-button>
                         </form>
                     </md-content>
                 </md-tab>
                 <md-tab label="Register">
                     <md-content layout-padding="">
-                        <form name="registrationForm">
+                        <form name="registrationForm" ng-submit="register(user, user.$valid)">
                             <div layout="" layout-sm="column">
                                 <md-input-container flex="">
                                     <label>Email</label>
@@ -43,12 +44,18 @@
                             </div>
                             <div layout="" layout-sm="column">
                                 <md-input-container flex="">
+                                    <label>Password</label>
+                                    <input ng-model="user.password" type="password">
+                                </md-input-container>
+                            </div>
+                            <div layout="" layout-sm="column">
+                                <md-input-container flex="">
                                     <label>First name</label>
-                                    <input ng-model="user.firstName">
+                                    <input ng-model="user.name.last">
                                 </md-input-container>
                                 <md-input-container flex="">
                                     <label>Last Name</label>
-                                    <input ng-model="theMax">
+                                    <input ng-model="user.name.first">
                                 </md-input-container>
                             </div>
                             <div layout="" layout-sm="column">
@@ -60,7 +67,7 @@
                             <div layout="" layout-sm="column">
                                 <md-input-container>
                                     <label>City</label>
-                                    <input type="text">
+                                    <input type="text" ng-model="user.address.city">
                                 </md-input-container>
                                 <md-select placeholder="State" ng-model="user.address.state">
                                     <md-option data-ng-repeat="state in states" value="{{state.abbrev}}">
@@ -72,7 +79,8 @@
                                     <input ng-model="user.address.zip">
                                 </md-input-container>
                             </div>
-                            <md-button class="md-raised md-primary buttonLarge">Register</md-button>
+                            <md-button class="md-raised md-primary buttonLarge">Register
+                            </md-button>
                         </form>
                     </md-content>
                 </md-tab>
