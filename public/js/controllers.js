@@ -209,16 +209,33 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', function ($scope, $
                 .hideDelay(2000)
         );
     };
-    $scope.messages = [{
-        what: 'Commenter name1',
-        who: '9:50AM 22 Jul',
-        when: '3:08PM',
-        notes: " I'll be in your neighborhood doing errands"
-    }];
+    $scope.messages = [];
 
 
-    $scope.getPosts = function(){
-
+    $scope.getPosts = function(callback){
+            $http({
+                method: 'GET',
+                url: '/api/groups/showposts/Test',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj)
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: {}
+            }).success(function (data, status, headers, config) {
+                console.log("showed Posts");
+                console.log(data);
+                data.res.forEach(function (e) {
+                    console.log(e.posts);
+                    $scope.messages.push(e.posts);
+                });
+                console.log($scope.messages);
+                //console.log($scope.messages);
+            }).error(function (data, status, headers, config) {
+                console.log("posts failed");
+            });
     };
 
     $scope.makePost = function(groupName, body, tags){
@@ -235,10 +252,13 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', function ($scope, $
             data: {groupname: groupName, postbody: body, posttags: tags}
         }).success(function (data, status, headers, config) {
             console.log("post success!");
+            $scope.getPosts();
         }).error(function(data,status,headers,config){
             console.log("stfu");
         });
     };
+
+    $scope.getPosts();
 }]);
 
 function geoCode(address, callback) {
