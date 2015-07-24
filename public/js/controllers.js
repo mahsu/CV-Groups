@@ -1,7 +1,7 @@
 "use strict";
-var app = angular.module('cvgroups.controllers', []);
+var app = angular.module('cvgroups.controllers', ['ngMessages']);
 
-app.controller('login.ctrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+app.controller('login.ctrl', ['$scope', '$http', '$location', '$mdToast', function ($scope, $http, $location, $mdToast) {
     $scope.states = ('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS ' +
     'MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI ' +
     'WY').split(' ').map(function (state) {
@@ -9,13 +9,20 @@ app.controller('login.ctrl', ['$scope', '$http', '$location', function ($scope, 
                 abbrev: state
             };
         });
-    $scope.login = function (user) {
+
+    $scope.login = function (user, valid) {
+        console.log(valid);
         $http.post('/api/auth/login', user)
             .success(function (data) {
                 $location.path('/landing');
             })
             .error(function (data, status, headers) {
-                //todo handle error
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content('Invalid Username/Password.')
+                        .position("top left right")
+                        .hideDelay(2000)
+                );
                 console.log(data, status, headers);
             })
     };
@@ -24,6 +31,12 @@ app.controller('login.ctrl', ['$scope', '$http', '$location', function ($scope, 
         geoCode(user.address, function (err, loc) {
             if (err) {
                 console.log("geocoding error");
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content('Unable to geocode address. Please check address.')
+                        .position("top left right")
+                        .hideDelay(2000)
+                );
             }
             else {
                 user.loc = loc;
@@ -34,7 +47,12 @@ app.controller('login.ctrl', ['$scope', '$http', '$location', function ($scope, 
                     $location.path('/landing');
                 })
                 .error(function (data, status, headers) {
-                    //todo handle error
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Unable to complete user registration.')
+                            .position("top left right")
+                            .hideDelay(2000)
+                    );
                     console.log(data, status, headers);
                 });
             console.log(user);
@@ -49,10 +67,10 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scop
     };
 
     $scope.types = ('classified carpool general finance').split(' ').map(function (type) {
-            return {
-                abbrev: type
-            };
-        });
+        return {
+            abbrev: type
+        };
+    });
 
     $scope.searchInput = "";
 
@@ -68,14 +86,14 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scop
 
     $scope.addNewBool = false;
     $scope.newName = "";
-    $scope.submit = function(){
+    $scope.submit = function () {
         $http({
             method: 'POST',
             url: '/api/groups/add',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            transformRequest: function(obj) {
+            transformRequest: function (obj) {
                 var str = [];
-                for(var p in obj)
+                for (var p in obj)
                     str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
@@ -84,13 +102,13 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scop
             console.log("new group submitted");
             $scope.loadAllGroups();
             $scope.loadUserGroups();
-        }).error(function(data,status,headers,config){
-           console.log("error in submitting new group");
+        }).error(function (data, status, headers, config) {
+            console.log("error in submitting new group");
         });
     };
 
     //Getting data for all Groups
-    $scope.loadAllGroups = function(){
+    $scope.loadAllGroups = function () {
         $http.get('/api/groups/showall')
             .success(function (data, status, headers, config) {
                 console.log("trying to get /groups/showall");
@@ -100,11 +118,11 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scop
             .error(function (data, status, headers, config) {
                 console.log("failure");
             });
-    }
+    };
 
-    $scope.loadUserGroups= function(){
+    $scope.loadUserGroups = function () {
         $http.get('/api/users/viewGroup')
-            .success(function(data, status, headers, config) {
+            .success(function (data, status, headers, config) {
                 console.log("trying to get user groups");
                 $scope.userGroups = data.res;
                 console.log("get user groups succeeded, data in var userGroups");
@@ -112,7 +130,7 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scop
             .error(function (data, status, headers, config) {
                 console.log("failure");
             });
-    }
+    };
 
     $scope.joinGroup = function(inputName) {
         $http({
@@ -176,4 +194,4 @@ function geoCode(address, callback) {
             callback(true);
         }
     });
-};
+}

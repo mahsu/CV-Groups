@@ -13,7 +13,7 @@ angular.module('cvgroups', ['ngMap', 'ngAnimate', 'ngRoute', 'ngMaterial', 'cvgr
             responseError: function (rejection) {
                 console.log(rejection.status, rejection.body);
                 if (rejection.status === 401) {
-                    window.location = "/";
+                    window.location = "/login";
                     //$location.path('/').search('returnTo', $location.path());
                 }
                 return $q.reject(rejection);
