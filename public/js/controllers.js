@@ -178,6 +178,74 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scop
     $scope.loadUserGroups();
 }]);
 
+app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', function ($scope, $http, $mdToast) {
+    $scope.user = {
+        title: 'Developer',
+        email: 'ipsum@lorem.com',
+        firstName: '',
+        lastName: '',
+        company: 'Google',
+        address: '1600 Amphitheatre Pkwy',
+        city: 'Mountain View',
+        state: 'CA',
+        biography: 'Loves kittens, snowboarding, and can type at 130 WPM.\n\nAnd rumor has it she bouldered up Castle Craig!',
+        postalCode: '94043'
+    };
+
+    $scope.newPost = function () {
+        if (typeof $scope.postText !== "undefined" && $scope.postText != "") {
+            console.log("new posted - " + $scope.postText);
+            /*      $http.post('newPost.do', {
+             params : {
+             //user : $req.user,
+             //group : $scope.group,
+             postText : $scope.postText
+             }
+             }); */
+            $scope.postText = "";
+            $scope.showSimpleToast();
+        }
+    };
+    $scope.showSimpleToast = function () {
+        $mdToast.show(
+            $mdToast.simple()
+                .content('Posted!!')
+                .position('top right')
+                .hideDelay(2000)
+        );
+    };
+    $scope.messages = [{
+        what: 'Commenter name1',
+        who: '9:50AM 22 Jul',
+        when: '3:08PM',
+        notes: " I'll be in your neighborhood doing errands"
+    }, {
+
+        what: 'Commenter name2',
+        who: 'Min Li Chan',
+        when: '3:08PM',
+        notes: " I'll be in your neighborhood doing errands"
+    }, {
+
+        what: 'Brunch this weekend?',
+        who: 'Min Li Chan',
+        when: '3:08PM',
+        notes: " I'll be in your neighborhood doing errands"
+    }, {
+
+        what: 'Brunch this weekend?',
+        who: 'Min Li Chan',
+        when: '3:08PM',
+        notes: " I'll be in your neighborhood doing errands"
+    }, {
+
+        what: 'Brunch this weekend?',
+        who: 'Min Li Chan',
+        when: '3:08PM',
+        notes: " I'll be in your neighborhood doing errands"
+    }];
+}]);
+
 function geoCode(address, callback) {
     if (typeof address == 'object') {
         address = address.street + " " + address.city + ", " + address.state + " " + address.zip;

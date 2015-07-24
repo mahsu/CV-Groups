@@ -49,6 +49,10 @@ angular.module('cvgroups', ['ngMap', 'ngAnimate', 'ngRoute', 'ngMaterial', 'cvgr
             .when('/register', {
                 templateUrl: 'partials/register'
             })
+            .when('/posts', {
+                templateUrl: 'partials/posts',
+                controller: "posts.ctrl"
+            })
             .otherwise({
                 redirectTo: '/login'
             });
