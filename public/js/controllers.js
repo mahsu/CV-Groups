@@ -260,11 +260,15 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', functi
             },
             data: {groupname: groupName, postbody: body, posttags: tags}
         }).success(function (data, status, headers, config) {
+            if (data.status == "0") {
+                return $scope.showSimpleToast("Failed to post. Please make sure you are part of the group first.");
+            }
+            $scope.postText = "";
             $scope.showSimpleToast("Posted!!!!!");
             console.log("post success!");
             $scope.getPosts();
         }).error(function (data, status, headers, config) {
-            $scope.showSimpleToast("Failed to post. Please make sure you are part of the group first.");
+
             console.log("stfu");
         });
     };
@@ -311,7 +315,7 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', functi
     };
 
     $scope.addUpvote = function (post) {
-        console.log(post._id)
+        console.log(post._id);
         $http({
             method: 'POST',
             url: '/api/users/upvote/' + post._id,
@@ -323,7 +327,10 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', functi
                 return str.join("&");
             }
         }).success(function (data, status, headers, config) {
-            console.log(data);
+            if (data.status == "0") {
+                return;
+            }
+            console.log(data.message);
             console.log("up success");
             $scope.getPosts();
         }).error(function (data, status, headers, config) {
@@ -332,7 +339,7 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', functi
     };
 
     $scope.addDownvote = function (post) {
-        console.log(post._id)
+        console.log(post._id);
         $http({
             method: 'POST',
             url: '/api/users/downvote/' + post._id,

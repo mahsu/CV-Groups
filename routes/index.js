@@ -6,7 +6,8 @@ router.get('/app', function(req, res) {
 });
 
 router.get('/', function(req, res) {
-    res.render('index')
+    //res.render('login');
+    res.redirect('/auth/login');
 });
 
 router.get('/partials/:name', function(req, res) {
