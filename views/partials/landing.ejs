@@ -3,20 +3,31 @@
 <body layout="column">
 <md-toolbar layout="row">
     <div class="md-toolbar-tools">
-        <md-button class="md-raised md-primary" ng-click="toggleSidenav('left')">
+        <img class="cv-logo" src="img/logo.png" alt="logo"/>
+        <h1> Groups </h1>
+        <span flex></span>
+        <md-button class=" md-primary" aria-label="Account">
+            <md-icon><i class="fa fa-sign-out"></i></md-icon>
+            <md-tooltip ng-cloak>Log Out</md-tooltip>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="More">
+            <md-icon md-svg-icon="img/more_vert.svg"></md-icon>
+            <md-tooltip ng-cloak>More</md-tooltip>
+        </md-button>
+        <!--<md-button class="md-raised md-primary" ng-click="toggleSidenav('left')">
             <md-icon aria-label="Menu"
                      md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
-        </md-button>
-        <img class="cv-logo" src="img/logo.png" alt="logo"/>
+        </md-button>-->
 
-        <h1> Groups </h1>
+
+
     </div>
 </md-toolbar>
 <div layout="row" flex>
-    <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left"
+    <!--<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left"
                 md-is-locked-open="$mdMedia('gt-sm')">
         <h1>Current Groups</h1>
-    </md-sidenav>
+    </md-sidenav>-->
     <div layout="column" flex id="content">
         <md-content layout="column" layout-padding flex class="md-padding">
             <h2>Join Groups</h2>
@@ -41,7 +52,7 @@
                         <md-card>
 
                             <md-card-content>
-                                <h2 class="md-title">{{group.name }}</h2>
+                                <h2 class="md-title"><a href="/posts?group={{group.name}}">{{group.name}}</a></h2>
                                 <h4>Group Type: </h4>
                                 <span>{{group.type}}</span>
                                 <h4>Group Description:</h4>
@@ -56,7 +67,6 @@
                     </div>
                 </md-grid-tile>
             </md-grid-list>
-            <md-button class="md-raised md-primary buttonLarge" ng-click="addNewBool=!addNewBool">Add A New Group</md-button>
 
             <div ng-show="userGroups.length!=0">
                 <h2>My Groups</h2>
@@ -69,15 +79,16 @@
                             <md-card>
 
                                 <md-card-content>
-                                    <h2 class="md-title">{{group.name }}</h2>
+                                    <h2 class="md-title"><a href="/posts?group={{group.name}}">{{group.name}}</a></h2>
                                     <h4>Group Type: </h4>
                                     <span>{{group.type}}</span>
                                     <h4>Group Description:</h4>
                                     <span>{{group.description}}</span>
                                 </md-card-content>
                                 <div class="md-actions" layout="row" layout-align="end center">
-                                    <md-button ng-click="leaveGroup(group.name)" class="md-raised md-primary buttonLarge">
-                                        Join Group
+                                    <md-button ng-click="leaveGroup(group.name)"
+                                               class="md-raised md-primary buttonLarge">
+                                        Leave Group
                                     </md-button>
                                 </div>
                             </md-card>
@@ -88,7 +99,8 @@
 
             </div>
 
-
+            <md-button class="md-raised md-primary buttonLarge" ng-click="addNewBool=!addNewBool">Add A New Group
+            </md-button>
             <div ng-show="addNewBool">
                 <md-input-container flex>
                     <label>Name of New Group</label>
