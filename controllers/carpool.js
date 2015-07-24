@@ -7,12 +7,13 @@ carpool.findNearby = function (req, res, next) {
 
     console.log("in findNearby");
 
-    var rad = (15 || req.query.rad) / RADIUS_OF_EARTH;
-
+    console.log(req.query.rad);
+    var rad = (15 || req.query.rad) / (RADIUS_OF_EARTH);
     var user = req.user;
-
-    console.log(req.user);
-    User.findNearby(user, rad, function (err, users) {
+    console.log(user);
+    //console.log(req.user);
+    User.findNearby2(user, rad, function (err, users) {
+        console.log(err);
         if (err) res.status(500).send(err);
         else res.json(users);
     });

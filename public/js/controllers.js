@@ -362,15 +362,7 @@ app.controller('car.ctrl', ['$scope', '$http', '$mdToast', '$location', function
         //console.log($location.search())
         $http({
             method: 'GET',
-            url: '/api/carpool/nearby',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            transformRequest: function (obj) {
-                var str = [];
-                for (var p in obj)
-                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                return str.join("&");
-            },
-            data: {}
+            url: '/api/carpool/nearby'
         }).success(function (data, status, headers, config) {
             console.log("showed nearby");
             console.log(data);

@@ -18,6 +18,7 @@ var UserSchema = new mongoose.Schema({
     loc: {type: {type: String}, coordinates: [Number]},//[lon,lat]
     _distance: Number //virtual property for use in geonear
 });
+UserSchema.index({ loc: '2dsphere' });
 
 //login fields abstracted by passport-local-mongoose
 UserSchema.plugin(passportLocalMongoose, {
@@ -36,12 +37,13 @@ UserSchema.virtual('address.full').get(function () {
     return this.address.street + ' ' + this.address.city + ', ' + this.address.state + ' ' + this.address.zip;
 });
 
-UserSchema.statics.findNearby = function (user, maxdist, callback) {
+UserSchema.statics.findNearby2 = function (user, maxdist, callback) {
     var _this = this;
-    _this.geoNear(this.loc, {
+    var point = {type: "Point", coordinates: [user.loc.coordinates[0],user.loc.coordinates[1]]};
+    this.geoNear(point, {
         maxDistance: maxdist,
         spherical: true,
-        distanceMultiplier: RADIUS_OF_EARTH
+        distanceMultiplier: 3959
     }, function (err, results, stats) {
         if (err) {
             return callback(err);

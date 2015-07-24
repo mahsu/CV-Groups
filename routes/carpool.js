@@ -4,7 +4,7 @@ var distance = require('google-distance');
 var gmaps = require('googlemaps');
 var async = require('async');
 
-var car = require('../controllers/carpool.js');
+var car = require('../controllers/carpool');
 /* GET users listing. */
 router.get('/', function (req, res, next) {
     res.send('just entered carpool');
