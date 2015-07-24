@@ -42,22 +42,43 @@ groupcontroller.delete = function (req, res, next) {
 
 groupcontroller.showAll = function (req, res, next) {
     var group = Group.find({}, 'name type description',function (err, data) {
-        resultJson.res = data;
-        res.send(resultJson);
+        if (err) {
+            resultJson.status = 0;
+            resultJson.res = err;
+            res.send(resultJson);
+        }
+        else {
+            resultJson.res = data;
+            res.send(resultJson);
+        }
     });
 };
 
 groupcontroller.findGroupByName = function (req, res, next) {
     var group = Group.findOne({ 'name': req.params.groupname }, 'name type description', function (err, data) {
-        resultJson.res = data;
-        res.send(resultJson);
+        if (err) {
+            resultJson.status = 0;
+            resultJson.res = err;
+            res.send(resultJson);
+        }
+        else {
+            resultJson.res = data;
+            res.send(resultJson);
+        }
     });
 };
 
 groupcontroller.findGroupByType = function (req, res, next) {
     var group = Group.find({ 'type': req.params.grouptype }, 'name type description', function (err, data) {
-        resultJson.res = data;
-        res.send(resultJson);
+        if (err) {
+            resultJson.status = 0;
+            resultJson.res = err;
+            res.send(resultJson);
+        }
+        else {
+            resultJson.res = data;
+            res.send(resultJson);
+        }
     });
 };
 
