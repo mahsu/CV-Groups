@@ -63,6 +63,9 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scop
     $scope.allGroups = [];
     $scope.userGroups = [];
 
+    $scope.tempName = "";
+
+
     $scope.addNewBool = false;
     $scope.newName = "";
     $scope.submit = function(){
@@ -110,6 +113,48 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scop
                 console.log("failure");
             });
     }
+
+    $scope.joinGroup = function(inputName) {
+        $http({
+            method: 'POST',
+            url: '/api/users/addgroup',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: {groupname: inputName}
+        }).success(function (data, status, headers, config) {
+            console.log("group joined");
+            $scope.loadAllGroups();
+            $scope.loadUserGroups();
+        }).error(function(data,status,headers,config){
+            console.log("error in joining group");
+        });
+    };
+
+    $scope.leaveGroup = function(inputName) {
+        $http({
+            method: 'POST',
+            url: '/api/users/removegroup',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: {groupname: inputName}
+        }).success(function (data, status, headers, config) {
+            console.log("removed from group");
+            $scope.loadAllGroups();
+            $scope.loadUserGroups();
+        }).error(function(data,status,headers,config){
+            console.log("error in removing from group");
+        });
+    };
 
     $scope.loadAllGroups();
     $scope.loadUserGroups();
