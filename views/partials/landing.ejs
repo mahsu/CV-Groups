@@ -19,7 +19,7 @@
     </md-sidenav>
     <div layout="column" flex id="content">
         <md-content layout="column" layout-padding flex class="md-padding">
-            <h2>Current Groups</h2>
+            <h2>Join Groups</h2>
 
             <form name="userForm">
                 <div layout>
@@ -33,7 +33,7 @@
             <!-- Uncomment this line to test value of searchInput -->
             <!-- <p>{{searchInput}}</p> -->
 
-            <md-grid-list md-cols-gt-md="4" md-cols-sm="3" md-cols-md="3"
+            <md-grid-list md-cols-gt-md="4" md-cols-sm="2" md-cols-md="2"
                           md-row-height-gt-md="310px" md-row-height="310px"
                     >
                 <md-grid-tile ng-repeat="group in allGroups|filter:searchInput">
@@ -42,53 +42,53 @@
 
                             <md-card-content>
                                 <h2 class="md-title">{{group.name }}</h2>
-
                                 <h4>Group Type: </h4>
-
                                 <span>{{group.type}}</span>
-
                                 <h4>Group Description:</h4>
-
                                 <span>{{group.description}}</span>
                             </md-card-content>
                             <div class="md-actions" layout="row" layout-align="end center">
-                                <md-button ng-click="joinGroup(group.name)" class="md-raised md-primary buttonLarge">Join Group</md-button>
+                                <md-button ng-click="joinGroup(group.name)" class="md-raised md-primary buttonLarge">
+                                    Join Group
+                                </md-button>
                             </div>
                         </md-card>
                     </div>
                 </md-grid-tile>
             </md-grid-list>
-
+            <md-button class="md-raised md-primary buttonLarge" ng-click="addNewBool=!addNewBool">Add A New Group</md-button>
 
             <div ng-show="userGroups.length!=0">
-                <h2>User Groups </h2>
+                <h2>My Groups</h2>
 
-                <div ng-repeat="group in userGroups|filter:searchInput" ng-init="group.show = false">
-                    <md-button class="md-raised md-primary buttonLarge"
-                               ng-click="group.show=!group.show; tempName = group.name">
-                        {{ group.name }}
-                    </md-button>
+                <md-grid-list md-cols-gt-md="4" md-cols-sm="2" md-cols-md="2"
+                              md-row-height-gt-md="310px" md-row-height="310px"
+                        >
+                    <md-grid-tile ng-repeat="group in userGroups|filter:searchInput">
+                        <div flex>
+                            <md-card>
 
-                    <div ng-show="group.show">
-
-                        <h3>Group Type: </h3>
-
-                        <p>{{group.type}}</p>
-
-                        <h3>Group Description:</h3>
-
-                        <p>{{group.description}}</p>
-
-                        <md-button ng-click="leaveGroup(tempName)" class="md-raised md-primary buttonLarge">Leave
-                            Group
-                        </md-button>
-                    </div>
-                </div>
+                                <md-card-content>
+                                    <h2 class="md-title">{{group.name }}</h2>
+                                    <h4>Group Type: </h4>
+                                    <span>{{group.type}}</span>
+                                    <h4>Group Description:</h4>
+                                    <span>{{group.description}}</span>
+                                </md-card-content>
+                                <div class="md-actions" layout="row" layout-align="end center">
+                                    <md-button ng-click="leaveGroup(group.name)" class="md-raised md-primary buttonLarge">
+                                        Join Group
+                                    </md-button>
+                                </div>
+                            </md-card>
+                        </div>
+                    </md-grid-tile>
+                </md-grid-list>
 
 
             </div>
 
-            <md-button class="md-raised md-primary buttonLarge" ng-click="addNewBool=!addNewBool">Add Groups</md-button>
+
             <div ng-show="addNewBool">
                 <md-input-container flex>
                     <label>Name of New Group</label>
