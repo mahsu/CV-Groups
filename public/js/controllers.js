@@ -67,7 +67,7 @@ app.controller('login.ctrl', ['$scope', '$http', '$location', '$mdToast', functi
     }
 }]);
 
-app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scope, $http, $mdSidenav) {
+app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', '$location','$mdToast', function ($scope, $http, $mdSidenav, $location,$mdToast) {
     $scope.toggleSidenav = function (menuId) {
         $mdSidenav(menuId).toggle();
     };
@@ -154,8 +154,10 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scop
             console.log("group joined");
             $scope.loadAllGroups();
             $scope.loadUserGroups();
+            $scope.showSimpleToast("Successfully joined " + inputName);
         }).error(function(data,status,headers,config){
             console.log("error in joining group");
+            $scope.showSimpleToast("Error joining " + inputName);
         });
     };
 
@@ -173,55 +175,56 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scop
             data: {groupname: inputName}
         }).success(function (data, status, headers, config) {
             console.log("removed from group");
+            $scope.showSimpleToast("Successfully left " + inputName);
             $scope.loadAllGroups();
             $scope.loadUserGroups();
         }).error(function(data,status,headers,config){
+            $scope.showSimpleToast("Error leaving " + inputName);
             console.log("error in removing from group");
         });
     };
 
     $scope.loadAllGroups();
     $scope.loadUserGroups();
+    $scope.showSimpleToast = function (msg) {
+        console.log("toast");
+        $mdToast.show(
+            $mdToast.simple()
+                .content(msg)
+                .position('top left right')
+                .hideDelay(2000)
+        );
+    };
 }]);
 
-app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', function ($scope, $http, $mdToast) {
+app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', function ($scope, $http, $mdToast, $location) {
     $scope.postText = "";
 
-    $scope.user = {
-        title: 'Developer',
-        email: 'ipsum@lorem.com',
-        firstName: '',
-        lastName: '',
-        company: 'Google',
-        address: '1600 Amphitheatre Pkwy',
-        city: 'Mountain View',
-        state: 'CA',
-        biography: 'Loves kittens, snowboarding, and can type at 130 WPM.\n\nAnd rumor has it she bouldered up Castle Craig!',
-        postalCode: '94043'
-    };
 
     $scope.newPost = function () {
         if (typeof $scope.postText !== "undefined" && $scope.postText != "") {
             console.log("new posted - " + $scope.postText);
-            $scope.makePost("Test", $scope.postText, "");
-            $scope.showSimpleToast();
+            $scope.makePost($location.search().group, $scope.postText, "");
+
         }
     };
-    $scope.showSimpleToast = function () {
+    $scope.showSimpleToast = function (msg) {
+        console.log("toast");
         $mdToast.show(
             $mdToast.simple()
-                .content('Posted!!')
-                .position('top right')
+                .content(msg)
+                .position('top left right')
                 .hideDelay(2000)
         );
-    };
+    };;
     $scope.messages = [];
 
 
     $scope.getPosts = function(callback){
+        console.log($location.search())
             $http({
                 method: 'GET',
-                url: '/api/groups/showposts/Test',
+                url: '/api/groups/showposts/'+$location.search().group,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 transformRequest: function (obj) {
                     var str = [];
@@ -256,9 +259,11 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', function ($scope, $
             },
             data: {groupname: groupName, postbody: body, posttags: tags}
         }).success(function (data, status, headers, config) {
+            $scope.showSimpleToast("Posted!!!!!");
             console.log("post success!");
             $scope.getPosts();
         }).error(function(data,status,headers,config){
+            $scope.showSimpleToast("Failed to post. Please make sure you are part of the group first.");
             console.log("stfu");
         });
     };
