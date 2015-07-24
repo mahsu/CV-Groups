@@ -22,6 +22,10 @@ router.get('/viewpost', postcontroller.viewAll);
 router.get('/viewpost/:id', postcontroller.viewPost);
 router.get('/deletepost/:id', postcontroller.deletePost);
 
+router.get('/upvote/:id', postcontroller.upvote);
+router.get('/downvote/:id', postcontroller.downvote);
+
+
 router.post('/addpost', postcontroller.addPost);
 router.post('/addcomment', postcontroller.addComment);
 module.exports = router;
