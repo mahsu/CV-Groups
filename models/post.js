@@ -15,7 +15,7 @@ var postSchema = new mongoose.Schema({
     body: String,
     author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     tags: [String],
-    comments: [commentSchema],
+    comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
     upvoted_by: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     downvoted_by: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
 });
