@@ -121,7 +121,7 @@ postcontroller.deletePost = function (req, res, next) {
         res.send(resultJson);
     }
     else {
-        var group = Post.findOne({ 'author': req.user._id, '_id': req.params.id }.remove(function (err, data) {
+        var group = Post.findOne({ 'author': req.user._id, '_id': req.params.id }).remove(function (err, data) {
             if (err) {
                 resultJson.status = 0;
                 resultJson.res = "Post deletion failed";
@@ -131,7 +131,7 @@ postcontroller.deletePost = function (req, res, next) {
                 resultJson.res = "Post was successfully removed ";
                 res.send(resultJson);
             }
-        }))
+        });
     }
     
 };

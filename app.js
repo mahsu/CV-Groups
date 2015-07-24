@@ -47,7 +47,7 @@ function _requireAuthentication(req, res, next) {
     else res.status(401).send("User is not logged in.");
 }
 app.use('/', routes);
-app.use('/api//carpool', carpool);
+app.use('/api/carpool', carpool);
 app.use('/api/auth', auth);
 app.use('/api/users', _requireAuthentication, users);
 app.use('/api/groups', groups);
