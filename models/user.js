@@ -24,8 +24,12 @@ UserSchema.plugin(passportLocalMongoose, {
         usernameField: 'email',
         saltField: 'salt',
         hashField: 'hash',
+        lastLoginField: 'last',
         attemptsField: 'attempts',
-        usernameLowerCase: true
+        usernameLowerCase: true,
+        usernameUnique: true,
+        usernameQueryFields: 'email'
+
     }
 );
 

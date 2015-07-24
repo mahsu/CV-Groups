@@ -10,7 +10,6 @@ var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
 var auth = require('./routes/auth');
-var users = require('./routes/users');
 var carpool = require('./routes/carpool');
 var groups = require('./routes/groups');
 
@@ -47,9 +46,8 @@ function _requireAuthentication(req, res, next) {
     else res.status(401).send("User is not logged in.");
 }
 app.use('/', routes);
-app.use('/api//carpool', carpool);
+app.use('/api/carpool', carpool);
 app.use('/api/auth', auth);
-app.use('/api/users', _requireAuthentication, users);
 app.use('/api/groups', groups);
 
 //route everything else through app

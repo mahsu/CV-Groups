@@ -1,20 +1,31 @@
+"use strict";
 var passport = require("passport");
 var User = require("../models/user");
+var _ = require("underscore");
+
+var OMIT = "salt hash last attempts";
 
 // use static authenticate method of model in LocalStrategy
 passport.use(User.createStrategy());
 
 // use static serialize and deserialize of model for passport session support
 passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.deserializeUser(function(username, callback) {
+        User.findByUsername(username, function(err, user) {
+            if (err) return callback(err);
+            user = _.omit(user, OMIT); // remove properties not required
+            callback(null, user);
+        });
+    }
+);
 
 var auth = {};
 
 auth.register = function register(req, res, next) {
-    var point = {type: "Point", coordinates: [parseFloat(req.body.location.lon), parseFloat(req.body.location.lat)]};
+    var point = {type: "Point", coordinates: [parseFloat(req.body.loc.lon), parseFloat(req.body.loc.lat)]};
     var user = new User({
         //todo add more fields
-        username: req.body.username,
+        email: req.body.email,
         address: req.body.address,
         name: {
             first: req.body.firstname,
@@ -30,8 +41,27 @@ auth.register = function register(req, res, next) {
             return err;
         }
         //todo redirect
-        res.status(200);
+        res.sendStatus(200);
     })
+};
+
+auth.login = function(req, res, next) {
+    passport.authenticate('local', function(err, user) {
+        if (err) {
+            console.error(err);
+            return res.sendStatus(500);
+        }
+        if (!user) {
+            return res.sendStatus(403);
+        }
+        req.logIn(user, function(err) {
+            if (err) {
+                console.error(err);
+                res.sendStatus(500);
+            }
+            res.sendStatus(200);
+        })
+    })(req, res, next);
 };
 
 auth.logout = function logout(req, res, next) {
