@@ -193,6 +193,22 @@ postcontroller.showComments = function (req, res, next) {
 
 };
 
+postcontroller.getComment = function (req, res, next) {
+    var getcomment = Comment.findOne({ '_id': req.params.id },  function (err, data) {
+        if (err || !data) {
+            resultJson.status = 0;
+            resultJson.res = err;
+            res.send(resultJson);
+        }
+        else {
+            resultJson.res = data;
+            res.send(resultJson);
+        }
+        
+    });
+
+};
+
 //view individual posts by user
 postcontroller.viewPost = function (req, res, next) {
     
