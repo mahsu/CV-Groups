@@ -11,6 +11,9 @@ groupcontroller.add = function (req, res, next) {
         name: req.body.groupname,
         type: req.body.grouptype,
         description: req.body.description,
+        users: [req.user._id],
+        owner: req.user._id,
+        moderators: [req.user._id]
     });
     group.save(function (err, data) {
         if (err) {
