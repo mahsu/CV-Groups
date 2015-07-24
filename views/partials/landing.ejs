@@ -19,27 +19,60 @@
     </md-sidenav>
     <div layout="column" flex id="content">
         <md-content layout="column" layout-padding flex class="md-padding">
-                <form name="userForm">
-                    <div layout>
-                        <md-input-container flex>
-                            <label>Search for a group!</label>
-                            <input type="text" ng-model="searchInput">
-                        </md-input-container>
-                    </div>
-                    </form>
+            <form name="userForm">
+                <div layout>
+                    <md-input-container flex>
+                        <label>Search for a group!</label>
+                        <input type="text" ng-model="searchInput">
+                    </md-input-container>
+                </div>
+            </form>
 
             <!-- Uncomment this line to test value of searchInput -->
             <!-- <p>{{searchInput}}</p> -->
 
-            <div>
-                <h2>Current Groups</h2>
-                <md-button class="md-raised md-primary buttonLarge" ng-repeat="group in allGroups|filter:searchInput">{{ group.name }} </md-button>
+            <h2>Current Groups</h2>
+
+            <div ng-repeat="group in allGroups|filter:searchInput"
+                 ng-init="group.show = false">
+                <md-button class="md-raised md-primary buttonLarge" ng-click="group.show=!group.show">
+                    {{group.name }}
+                </md-button>
+
+                <div ng-show="group.show">
+
+                    <h3>Group Type: </h3>
+                    <p>{{group.type}}</p>
+
+                    <h3>Group Description:</h3>
+                    <p>{{group.description}}</p>
+
+                    <md-button ng-click="" class="md-raised md-primary buttonLarge">Join Group</md-button>
+                </div>
             </div>
 
 
             <div ng-show="userGroups.length!=0">
                 <h2>User Groups </h2>
-                <md-button class="md-raised md-primary buttonLarge" ng-repeat="group in userGroups|filter:searchInput">{{ group.name }} </md-button>
+
+                <div ng-repeat="group in userGroups|filter:searchInput" ng-init="group.show = false">
+                    <md-button class="md-raised md-primary buttonLarge" ng-click="group.show=!group.show">
+                        {{ group.name }}
+                    </md-button>
+
+                    <div ng-show="group.show">
+
+                        <h3>Group Type: </h3>
+                        <p>{{group.type}}</p>
+
+                        <h3>Group Description:</h3>
+                        <p>{{group.description}}</p>
+
+                        <md-button ng-click="" class="md-raised md-primary buttonLarge">Leave Group</md-button>
+                    </div>
+                </div>
+
+
             </div>
 
             <md-button class="md-raised md-primary buttonLarge" ng-click="addNewBool=!addNewBool">Add Groups</md-button>
