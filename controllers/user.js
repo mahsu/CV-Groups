@@ -108,7 +108,7 @@ usercontroller.viewGroup = function (req, res, next) {
                 if (index > -1)
                     resultJson.res = data;
                 else {
-                    resultJson.res = [{ "_id": data._id, "name": data.name, "type": data.type }];
+                    resultJson.res = { "_id": data._id, "name": data.name, "type": data.type, "description": data.description};
                 }
                 res.send(resultJson);
             }
