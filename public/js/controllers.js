@@ -9,6 +9,38 @@ app.controller('login.ctrl', ['$scope', function ($scope) {
                 abbrev: state
             };
         });
+    $scope.login = function (user) {
+        $http.post('/api/auth/login', user)
+            .success(function (data) {
+                $location.path('/landing');
+            })
+            .error(function (data, status, headers) {
+                //todo handle error
+                console.log(data, status, headers);
+            })
+    };
+
+    $scope.register = function (user) {
+        geoCode(user.address, function (err, loc) {
+            if (err) {
+                console.log("geocoding error");
+            }
+            else {
+                user.loc = loc;
+            }
+
+            $http.post('/api/auth/register', user)
+                .success(function (data) {
+                    $location.path('/landing');
+                })
+                .error(function (data, status, headers) {
+                    //todo handle error
+                    console.log(data, status, headers);
+                });
+            console.log(user);
+        });
+
+    }
 }]);
 
 app.controller('landing.ctrl', ['$scope', '$mdSidenav', function ($scope, $mdSidenav) {
@@ -18,12 +50,19 @@ app.controller('landing.ctrl', ['$scope', '$mdSidenav', function ($scope, $mdSid
 }]);
 
 function geoCode(address, callback) {
+    if (typeof address == 'object') {
+        address = address.street + " " + address.city + ", " + address.state + " " + address.zip;
+    }
     var geocoder = new google.maps.Geocoder();
     geocoder.geocode({'address': address}, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-            callback(results[0].geometry.location);
+            var res = results[0].geometry.location;
+            var loc = {};
+            loc.lat = res.A;
+            loc.lon = res.F;
+            callback(null, loc);
         } else {
-            callback(false);
+            callback(true);
         }
     });
-}
+};
