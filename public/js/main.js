@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('cvgroups', ['ngMap', 'ngAnimate', 'ngRoute', 'cvgroups.filters', 'cvgroups.services', 'cvgroups.directives'])
+angular.module('cvgroups', ['ngMap', 'ngAnimate', 'ngRoute', 'ngMaterial', 'cvgroups.controllers'])
     .factory('httpResponseInterceptor',['$q','$location',function($q,$location){
         return {
             response: function(response){
@@ -23,7 +23,7 @@ angular.module('cvgroups', ['ngMap', 'ngAnimate', 'ngRoute', 'cvgroups.filters',
     .config(['$httpProvider', '$routeProvider', '$locationProvider', function($httpProvider, $routeProvider, $locationProvider) {
         $httpProvider.interceptors.push('httpResponseInterceptor');
         $routeProvider
-            .when('/me', {
+            /*.when('/me', {
                 templateUrl: 'partials/requests',
                 controller: RequestsController
             })
@@ -37,7 +37,7 @@ angular.module('cvgroups', ['ngMap', 'ngAnimate', 'ngRoute', 'cvgroups.filters',
             .when('/me/profile', {
                 templateUrl: 'partials/user'
                 //controller: UsersController
-            })
+            })*/
             .when('/login', {
                 templateUrl: 'partials/login'
             })
@@ -45,7 +45,8 @@ angular.module('cvgroups', ['ngMap', 'ngAnimate', 'ngRoute', 'cvgroups.filters',
                 templateUrl: 'partials/register'
             })
             .otherwise({
-                redirectTo: '/requests'
+                redirectTo: '/login',
+                controller: "login"
             });
         $locationProvider.html5Mode(true);
     }]);

@@ -47,10 +47,15 @@ function _requireAuthentication(req, res, next) {
     else res.status(401).send("User is not logged in.");
 }
 app.use('/', routes);
-app.use('/carpool', carpool);
-app.use('/auth', auth);
-app.use('/users', _requireAuthentication, users);
-app.use('/groups', groups);
+app.use('/api//carpool', carpool);
+app.use('/api/auth', auth);
+app.use('/api/users', _requireAuthentication, users);
+app.use('/api/groups', groups);
+
+//route everything else through app
+app.get('*', function(req, res) {
+    res.render('app');
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
