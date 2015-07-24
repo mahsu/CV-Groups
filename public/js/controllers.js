@@ -43,19 +43,24 @@ app.controller('login.ctrl', ['$scope', '$http', '$location', function ($scope, 
     }
 }]);
 
-app.controller('landing.ctrl', ['$scope', '$mdSidenav', function ($scope, $mdSidenav) {
+app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scope, $http, $mdSidenav) {
     $scope.toggleSidenav = function (menuId) {
         $mdSidenav(menuId).toggle();
     };
 
     $scope.searchInput = "";
 
-    $scope.groups = [
-        { name: 'Ari'},
-        { name: 'Q'},
-        { name: 'Sean'},
-        { name: 'Anand'}
-    ];
+    $scope.groups = [];
+
+    $http.get('/api/groups/showall')
+        .success(function (data, status, headers, config) {
+            console.log("trying to get /groups/showall");
+            $scope.groups = data;
+            console.log("get succeeded, data in var groups");
+        })
+        .error(function (data, status, headers, config) {
+            console.log("failure");
+    });
 }]);
 
 function geoCode(address, callback) {
