@@ -8,14 +8,14 @@ passport.use(User.createStrategy());
 
 // use static serialize and deserialize of model for passport session support
 passport.serializeUser(User.serializeUser());
-passport.deserializeUser(passport.deserializeUser(function(username, callback) {
+passport.deserializeUser(function(username, callback) {
         User.findByUsername(username, function(err, user) {
             if (err) return callback(err);
             user = _.omit(user, OMIT); // remove properties not required
             callback(null, user);
         });
     }
-));
+);
 
 var auth = {};
 

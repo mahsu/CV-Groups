@@ -10,9 +10,7 @@ router.post('/register', auth.register, function(req, res, next) {
 });
 
 router.get('/login', function(req, res, next) {});
-router.post('/login', passport.authenticate('local'), function (req, res, next) {
-    res.send("Login successful. ONLY FOR TESTING. DO REDIRECTS HERE");
-});
+router.post('/login', passport.authenticate('local'));
 
 router.get('/logout', auth.logout);
 
