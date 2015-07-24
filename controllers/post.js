@@ -193,6 +193,22 @@ postcontroller.showComments = function (req, res, next) {
 
 };
 
+postcontroller.getComment = function (req, res, next) {
+    var getcomment = Comment.findOne({ '_id': req.params.id },  function (err, data) {
+        if (err || !data) {
+            resultJson.status = 0;
+            resultJson.res = err;
+            res.send(resultJson);
+        }
+        else {
+            resultJson.res = data;
+            res.send(resultJson);
+        }
+        
+    });
+
+};
+
 //view individual posts by user
 postcontroller.viewPost = function (req, res, next) {
     
@@ -257,6 +273,12 @@ postcontroller.upvote = function (req, res, next) {
                 res.send(resultJson);
             }
             else {
+                if (data.upvoted_by.indexOf(req.user._id) != -1) {
+                    resultJson.status = 0;
+                    resultJson.res = "Failed to upvote";
+                    return res.send(resultJson);
+
+                }
                 var index = data.downvoted_by.indexOf(req.user._id);
                 if (index > -1) {
                     data.downvoted_by.splice(index, 1);
@@ -295,6 +317,11 @@ postcontroller.downvote = function (req, res, next) {
                 res.send(resultJson);
             }
             else {
+                if (data.downvoted_by.indexOf(req.user._id) != -1) {
+                    resultJson.status = 0;
+                    resultJson.res = "Failed to downvote";
+                    return res.send(resultJson);
+                }
                 var index = data.upvoted_by.indexOf(req.user._id);
                 if (index > -1) {
                     data.upvoted_by.splice(index, 1);

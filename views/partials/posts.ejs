@@ -1,12 +1,23 @@
 <body>
 <md-toolbar layout="row">
     <div class="md-toolbar-tools">
-        <md-button class="md-raised md-primary">
-            <a href="/landing" ng-click="window.history.back();"><i class="fa fa-chevron-left"></i></a>
-        </md-button>
+        <a href="/landing" ng-click="window.history.back();">
+            <md-button class="md-icon-button">
+                <md-icon md-font-icon="fa-chevron-left" class="fa"></md-icon>
+                <md-tooltip ng-cloak>Go Back</md-tooltip>
+            </md-button>
+        </a>
         <img class="cv-logo" src="img/logo.png" alt="logo"/>
 
         <h1> Groups </h1>
+        <span flex></span>
+        <a href="/api/auth/logout">
+            <md-button class=" md-icon-button" aria-label="Account">
+                <md-icon md-font-icon="fa-sign-out" class="fa"></md-icon>
+                <md-tooltip ng-cloak>Log Out</md-tooltip>
+            </md-button>
+        </a>
+
     </div>
 </md-toolbar>
 
@@ -39,10 +50,14 @@
         </md-content>
     </md-whiteframe>
 
-
+    <md-card class="postCard" ng-show="messages.length == 0">
+        <md-card-content>
+            No posts to show!
+        </md-card-content>
+    </md-card>
     <md-card class="postCard" ng-repeat="item in messages|reverse">
         <md-card-content>
-            <h2 class="md-title">FirstN LastN</h2>
+            <h2 class="md-title">{{item.author.name.first}} {{item.author.name.last}}</h2>
             <h6>{{item.created_at}}</h6>
 
             <p>
@@ -51,15 +66,14 @@
         </md-card-content>
         <div class="md-actions" layout="row" layout-align="end center">
             <md-button>..more</md-button>
-            <md-button><i class="fa fa-thumbs-o-up"></i> {{item.upvoted_by.length}}</md-button>
-            <md-button><i class="fa fa-thumbs-o-down"></i> {{item.downvoted_by.length}}</md-button>
+            <md-button ng-click="addUpvote(item)" ><i class="fa fa-thumbs-o-up"></i> {{item.upvoted_by.length}}</md-button>
+            <md-button ng-click="addDownvote(item)" ><i class="fa fa-thumbs-o-down"></i> {{item.downvoted_by.length}}</md-button>
         </div>
 
         <md-divider ng-if="!$last"></md-divider>
         <md-content>
             <md-list>
                 <md-list-item class="md-3-line" ng-repeat="comment in item.comments">
-
                     <div class="md-list-item-text">
                         <h4>{{comment}}</h4>
                     </div>
