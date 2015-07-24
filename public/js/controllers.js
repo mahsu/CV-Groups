@@ -15,6 +15,15 @@ app.controller('landing.ctrl', ['$scope', '$mdSidenav', function ($scope, $mdSid
     $scope.toggleSidenav = function (menuId) {
         $mdSidenav(menuId).toggle();
     };
+
+    $scope.searchInput = "";
+
+    $scope.groups = [
+        { name: 'Ari'},
+        { name: 'Q'},
+        { name: 'Sean'},
+        { name: 'Anand'}
+    ];
 }]);
 
 function geoCode(address, callback) {
