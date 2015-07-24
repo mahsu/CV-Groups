@@ -48,6 +48,12 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scop
         $mdSidenav(menuId).toggle();
     };
 
+    $scope.types = ('classified carpool general finance').split(' ').map(function (type) {
+            return {
+                abbrev: type
+            };
+        });
+
     $scope.searchInput = "";
 
     $scope.newGroupName = "";
@@ -73,33 +79,40 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', function ($scop
             data: {groupname: $scope.newGroupName, grouptype: $scope.newGroupType, description: $scope.newGroupDesc}
         }).success(function (data, status, headers, config) {
             console.log("new group submitted");
+            $scope.loadAllGroups();
+            $scope.loadUserGroups();
         }).error(function(data,status,headers,config){
            console.log("error in submitting new group");
         });
     };
 
     //Getting data for all Groups
-    $http.get('/api/groups/showall')
-        .success(function (data, status, headers, config) {
-            console.log("trying to get /groups/showall");
-            $scope.allGroups = data.res;
-            console.log("get succeeded, data in var allGroups");
-        })
-        .error(function (data, status, headers, config) {
-            console.log("failure");
-    });
+    $scope.loadAllGroups = function(){
+        $http.get('/api/groups/showall')
+            .success(function (data, status, headers, config) {
+                console.log("trying to get /groups/showall");
+                $scope.allGroups = data.res;
+                console.log("get succeeded, data in var allGroups");
+            })
+            .error(function (data, status, headers, config) {
+                console.log("failure");
+            });
+    }
 
-    //Uncomment when logged in to get userGroups
+    $scope.loadUserGroups= function(){
+        $http.get('/api/users/viewGroup')
+            .success(function(data, status, headers, config) {
+                console.log("trying to get user groups");
+                $scope.userGroups = data.res;
+                console.log("get user groups succeeded, data in var userGroups");
+            })
+            .error(function (data, status, headers, config) {
+                console.log("failure");
+            });
+    }
 
-    $http.get('/api/users/viewGroup')
-        .success(function(data, status, headers, config) {
-            console.log("trying to get user groups");
-            $scope.userGroups = data.res;
-            console.log("get user groups succeeded, data in var userGroups");
-        })
-        .error(function (data, status, headers, config) {
-            console.log("failure");
-        });
+    $scope.loadAllGroups();
+    $scope.loadUserGroups();
 }]);
 
 function geoCode(address, callback) {
