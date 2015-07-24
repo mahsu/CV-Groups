@@ -39,14 +39,14 @@ angular.module('cvgroups', ['ngMap', 'ngAnimate', 'ngRoute', 'ngMaterial', 'cvgr
                 //controller: UsersController
             })*/
             .when('/login', {
-                templateUrl: 'partials/login'
+                templateUrl: 'partials/login',
+                controller: "login.ctrl"
             })
             .when('/register', {
                 templateUrl: 'partials/register'
             })
             .otherwise({
-                redirectTo: '/login',
-                controller: "login"
+                redirectTo: '/login'
             });
         $locationProvider.html5Mode(true);
     }]);

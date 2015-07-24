@@ -6,7 +6,7 @@
     <md-whiteframe class="mt" layout="" layout-align="center center">
         <img src="img/logo.png" alt="logo"/>
     </md-whiteframe>
-    <md-whiteframe layout-align="center center">
+    <md-whiteframe layout="" layout-align="center center">
         <h1>CV Groups</h1>
     </md-whiteframe>
 
@@ -63,13 +63,13 @@
                                     <input type="text">
                                 </md-input-container>
                                 <md-select placeholder="State" ng-model="user.address.state">
-                                    <md-option ng-repeat="state in login.states" value="{{state.abbrev}}">
+                                    <md-option data-ng-repeat="state in states" value="{{state.abbrev}}">
                                         {{state.abbrev}}
                                     </md-option>
                                 </md-select>
                                 <md-input-container flex="">
                                     <label>Postal Code</label>
-                                    <input ng-model="user.address.postalCode">
+                                    <input ng-model="user.address.zip">
                                 </md-input-container>
                             </div>
                             <md-button class="md-raised md-primary buttonLarge">Register</md-button>
