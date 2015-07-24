@@ -73,10 +73,9 @@
         <md-divider ng-if="!$last"></md-divider>
         <md-content>
             <md-list>
-                <md-list-item class="md-3-line">
-
+                <md-list-item class="md-3-line" ng-repeat="comment in item.comments">
                     <div class="md-list-item-text">
-                        <h4>Comment</h4>
+                        <h4>{{comment}}</h4>
                     </div>
                     <md-divider ng-if="!$last"></md-divider>
                 </md-list-item>
@@ -90,7 +89,7 @@
             <div class="commentText">
                 <input name="commentText" ng-model="commentText" placeholder="Write a comment..">
             </div>
-            <md-button class="md-raised md-primary newCommentButton">Comment</md-button>
+            <md-button ng-click="addComment()" class="md-raised md-primary newCommentButton">Comment</md-button>
 
         </md-input-container>
     </md-card>

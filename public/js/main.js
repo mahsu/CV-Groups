@@ -53,6 +53,10 @@ angular.module('cvgroups', ['ngMap', 'ngAnimate', 'ngRoute', 'ngMaterial', 'cvgr
                 templateUrl: 'partials/posts',
                 controller: "posts.ctrl"
             })
+            .when('/car', {
+                templateUrl: 'partials/car',
+                controller: "car.ctrl"
+            })
             .otherwise({
                 redirectTo: '/login'
             });

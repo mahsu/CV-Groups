@@ -3,10 +3,14 @@ var router = express.Router();
 var distance = require('google-distance');
 var gmaps = require('googlemaps');
 var async = require('async');
+
+var car = require('../controllers/carpool.js');
 /* GET users listing. */
 router.get('/', function (req, res, next) {
     res.send('just entered carpool');
 });
+
+router.get('/nearby', car.findNearby);
 
 //Given Place1, Place2, and the Destination, the function will return the place at which you should start for the shorter distance
 router.get('/map/:place1/:place2/:dest', function (req, res, next) {

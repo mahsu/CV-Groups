@@ -1,0 +1,27 @@
+<body>
+
+<div layout="column" class="inputdemoBasicUsage">
+    <md-whiteframe class="md-whiteframe-z2 groupMemberWidget" layout="" layout-align="center center" >
+
+        <md-list layout-padding class="groupMemberWidgetLayout ">
+
+            <md-toolbar class="md-primary ">
+                <h1 class="md-toolbar-tools ">Group Members Nearest to You!</h1>
+            </md-toolbar>
+
+            <md-content class="groupMemberContent " md-theme="altTheme ">
+
+                <md-list-item class="md-1-line groupMemberList " ng-repeat="message in messages">
+                    console.log(messages);
+                    <div class="md-list-item-text ">
+                        {{message.notes}}
+                    </div>
+                </md-list-item>
+
+            </md-content>
+        </md-list>
+    </md-whiteframe>
+
+
+</div>
+</body>
