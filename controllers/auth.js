@@ -14,7 +14,7 @@ auth.register = function register(req, res, next) {
     var point = {type: "Point", coordinates: [parseFloat(req.body.location.lon), parseFloat(req.body.location.lat)]};
     var user = new User({
         //todo add more fields
-        username: req.body.username,
+        email: req.body.username,
         address: req.body.address,
         name: {
             first: req.body.firstname,
