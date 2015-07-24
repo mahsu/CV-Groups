@@ -9,7 +9,7 @@ resultJson.res = "";
 
 //adding post in a group
 postcontroller.addPost = function (req, res, next) {
-    console.log(req.user);
+    //console.log(req.user);
     if (!req.user._id) {
         resultJson.status = 0;
         resultJson.res = "No user id found";
@@ -30,16 +30,20 @@ postcontroller.addPost = function (req, res, next) {
                     res.send(resultJson);
                 }
                 else {
-                    console.log(req.user.name);
+                   // console.log(req.user.name);
                     var newPost = new Post({
                         //todo add more fields
                         body: req.body.postbody,
                         author: {
                             _id: req.user._id,
-                            name: req.user.name
+                            name: {
+                                first: req.user.name.first,
+                                last: req.user.name.last
+                            }
                         },
                         tags: req.body.posttags
                     });
+                   // console.log(newPost);
                     newPost.save(function (err, postData) {
                         if (err) {
                             resultJson.status = 0;
@@ -104,7 +108,10 @@ postcontroller.addComment = function (req, res, next) {
                                 body: req.body.commentbody,
                                 author: {
                                     _id: req.user._id,
-                                    name: req.user.name
+                                    name: {
+                                        first: req.user.name.first,
+                                        last: req.user.name.last
+                                    }
                                 }
                             });
                             newComment.save(function (err, commentData) {
@@ -146,7 +153,7 @@ postcontroller.viewAll = function (req, res, next) {
         res.send(resultJson);
     }
     else {
-        var group = Post.find({ 'author': req.user._id }, function (err, data) {
+        var group = Post.find({ 'author._id': req.user._id }, function (err, data) {
             if (err) {
                 resultJson.status = 0;
                 resultJson.res = "You dont have any posts";
@@ -170,7 +177,7 @@ postcontroller.viewPost = function (req, res, next) {
         res.send(resultJson);
     }
     else {
-        var group = Post.findOne({ 'author': req.user._id,'_id':req.params.id }, function (err, data) {
+        var group = Post.findOne({ 'author._id': req.user._id,'_id':req.params.id }, function (err, data) {
             if (err) {
                 resultJson.status = 0;
                 resultJson.res = "Cannot find the post you are looking for";
