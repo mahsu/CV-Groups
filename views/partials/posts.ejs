@@ -1,8 +1,18 @@
 <body>
+<md-toolbar layout="row">
+    <div class="md-toolbar-tools">
+        <md-button class="md-raised md-primary">
+            <a href="#" onclick="window.history.back();"><i class="fa fa-chevron-left"></i></a>
+        </md-button>
+        <img class="cv-logo" src="img/logo.png" alt="logo"/>
 
-<div layout="column" class="inputdemoBasicUsage" ng-app="MyApp">
+        <h1> Groups </h1>
+    </div>
+</md-toolbar>
+
+<div layout="column" class="inputdemoBasicUsage">
     <md-whiteframe class="md-whiteframe-z1 newPostFrame" layout="" layout-align="center center">
-        <md-content class="newPostContent" layout-padding="">
+        <md-content class="newPostContent" layout-padding="" flex style="padding:10px;">
             <form name="userForm" ng-submit="newPost()">
 
                 <div layout=" " layout-sm="column" ng-hide="true">

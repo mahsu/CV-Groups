@@ -33,8 +33,11 @@ postcontroller.addPost = function (req, res, next) {
                     var newPost = new Post({
                         //todo add more fields
                         body: req.body.postbody,
-                        author: req.user._id,
-                        tags: req.body.posttags,
+                        author: {
+                            _id: req.user._id,
+                            name: req.user.name
+                        },
+                        tags: req.body.posttags
                     });
                     newPost.save(function (err, postData) {
                         if (err) {
@@ -98,7 +101,10 @@ postcontroller.addComment = function (req, res, next) {
                             var newComment = new Comment({
                                 //todo add more fields
                                 body: req.body.commentbody,
-                                author: req.user._id
+                                author: {
+                                    _id: req.user._id,
+                                    name: req.user.name
+                                }
                             });
                             newComment.save(function (err, commentData) {
                                 if (err) {
