@@ -10,6 +10,9 @@ controller.controller('login', function () {
         });
 });
 
-controller.controller('landing.ctrl', ['$rootScope',function($rootScope){
-    
+controller.controller('landing.ctrl', ['$scope', '$mdSidenav', function($scope, $mdSidenav){
+    $scope.toggleSidenav = function(menuId) {
+        $mdSidenav(menuId).toggle();
+    };
+
 }]);
