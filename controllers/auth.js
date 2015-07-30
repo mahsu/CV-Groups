@@ -36,9 +36,9 @@ auth.register = function register(req, res, next) {
             //todo handle errors
             console.log("Registration error: ", err);
             res.json(err);
-            return res.send(500);
+            return res.sendStatus(500);
         }
-        return res.send(200);
+        return res.sendStatus(200);
     })
 };
 

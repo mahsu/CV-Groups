@@ -402,10 +402,15 @@ function geoCode(address, callback) {
     var geocoder = new google.maps.Geocoder();
     geocoder.geocode({'address': address}, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
+            console.log(results);
             var res = results[0].geometry.location;
             var loc = {};
-            loc.lat = res.A;
-            loc.lon = res.F;
+            var keys = Object.keys(res);
+            loc.lat = res[keys[0]];
+            loc.lon = res[keys[1]];
+            //loc.lat = res.A;
+            //loc.lon = res.F;
+            console.log(loc);
             callback(null, loc);
         } else {
             callback(true);
