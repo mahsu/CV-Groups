@@ -1,4 +1,5 @@
 var Group = require("../models/group");
+var async = require("async");
 
 var groupcontroller = {};
 var resultJson = {};
@@ -79,8 +80,22 @@ groupcontroller.showAllPosts = function (req, res, next) {
                         res.send(resultJson);
                     }
                     else {
-                        resultJson.res = postData.posts;
-                        res.send(resultJson);
+                        async.map(postData.posts, function (item, done) {
+
+                            item.populate("comments", done);
+
+                        }, function (err, result) {
+                            if (err) {
+                                console.log(err);
+                            }
+                            else {
+                                console.log(postData.posts);
+                                resultJson.status = 1;
+                                resultJson.res = result;
+                                res.send(resultJson);
+                            }
+
+                        });
                     }
                 });
             }

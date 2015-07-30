@@ -200,7 +200,6 @@ app.controller('landing.ctrl', ['$scope', '$http', '$mdSidenav', '$location', '$
 app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', function ($scope, $http, $mdToast, $location) {
     $scope.postText = "";
 
-
     $scope.newPost = function () {
         if (typeof $scope.postText !== "undefined" && $scope.postText != "") {
             console.log("new posted - " + $scope.postText);
@@ -208,6 +207,15 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', functi
 
         }
     };
+
+    $scope.newComment = function(commentText, postid) {
+        console.log(commentText);
+        if (typeof commentText !== "undefined" && commentText != "") {
+            console.log("new comment - ",postid,commentText,$location.search().group);
+            $scope.addComments(postid, commentText, $location.search().group);
+        }
+    };
+
     $scope.showSimpleToast = function (msg) {
         console.log("toast");
         $mdToast.show(
@@ -286,7 +294,7 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', functi
             },
             data: {'_id': postid}
         }).success(function (data, status, headers, config) {
-            console.log(data);
+            console.log("get comments", data);
             return data;
             //console.log($scope.messages);
         }).error(function (data, status, headers, config) {
@@ -307,10 +315,13 @@ app.controller('posts.ctrl', ['$scope', '$http', '$mdToast', '$location', functi
             },
             data: {groupname: groupName, commentbody: commentText, postid: postid}
         }).success(function (data, status, headers, config) {
+            if (data.status == 0) {
+                console.error(data.res);
+            }
             console.log("add comment success!");
             $scope.getPosts();
         }).error(function(data,status,headers,config){
-            console.log("stfu");
+            console.log(data);
         });
     };
 

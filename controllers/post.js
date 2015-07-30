@@ -16,7 +16,7 @@ postcontroller.addPost = function (req, res, next) {
         res.send(resultJson);
     }
     else {
-        var group = Group.findOne({ 'name': req.body.groupname }, function (err, data) {
+        var group = Group.findOne({'name': req.body.groupname}, function (err, data) {
             if (err) {
                 resultJson.status = 0;
                 resultJson.res = "The group you want to post in does not exist";
@@ -30,10 +30,11 @@ postcontroller.addPost = function (req, res, next) {
                     res.send(resultJson);
                 }
                 else {
-                   // console.log(req.user.name);
+                    // console.log(req.user.name);
                     var newPost = new Post({
                         //todo add more fields
                         body: req.body.postbody,
+                        belongs_to: data._id,
                         author: {
                             _id: req.user._id,
                             name: {
@@ -43,7 +44,7 @@ postcontroller.addPost = function (req, res, next) {
                         },
                         tags: req.body.posttags
                     });
-                   // console.log(newPost);
+                    // console.log(newPost);
                     newPost.save(function (err, postData) {
                         if (err) {
                             resultJson.status = 0;
@@ -63,26 +64,26 @@ postcontroller.addPost = function (req, res, next) {
                                     res.send(resultJson);
                                 }
                             });
-                        
+
                         }
                     });
                 }
             }
         });
     }
-    
+
 };
 
 //adding comments to a post in a group
 postcontroller.addComment = function (req, res, next) {
-    
+
     if (!req.user._id) {
         resultJson.status = 0;
         resultJson.res = "No user id found";
         res.send(resultJson);
     }
     else {
-        var group = Group.findOne({ 'name': req.body.groupname }, function (err, data) {
+        var group = Group.findOne({'name': req.body.groupname}, function (err, data) {
             if (err) {
                 resultJson.status = 0;
                 resultJson.res = "The group you want to post in does not exist";
@@ -96,8 +97,8 @@ postcontroller.addComment = function (req, res, next) {
                     res.send(resultJson);
                 }
                 else {
-                    var findPost = Post.findOne({ '_id': req.body.postid }, function (err, postData) {
-                        if (err||!postData) {
+                    var findPost = Post.findOne({'_id': req.body.postid}, function (err, postData) {
+                        if (err || !postData) {
                             resultJson.status = 0;
                             resultJson.res = "Post not found";
                             res.send(resultJson);
@@ -106,6 +107,7 @@ postcontroller.addComment = function (req, res, next) {
                             var newComment = new Comment({
                                 //todo add more fields
                                 body: req.body.commentbody,
+                                belongs_to: postData._id,
                                 author: {
                                     _id: req.user._id,
                                     name: {
@@ -133,7 +135,7 @@ postcontroller.addComment = function (req, res, next) {
                                             res.send(resultJson);
                                         }
                                     });
-                        
+
                                 }
                             });
                         }
@@ -142,59 +144,67 @@ postcontroller.addComment = function (req, res, next) {
             }
         });
     }
-    
+
 };
 //get all posts by user
 postcontroller.viewAll = function (req, res, next) {
-    
+
     if (!req.user._id) {
         resultJson.status = 0;
         resultJson.res = "No user id found";
         res.send(resultJson);
     }
     else {
-        var group = Post.find({ 'author._id': req.user._id }, function (err, data) {
+        var group = Post.find({'author._id': req.user._id}, function (err, data) {
             if (err) {
                 resultJson.status = 0;
                 resultJson.res = "You dont have any posts";
                 res.send(resultJson);
             }
             else {
-                    resultJson.res = data;
+                data.populate("comments", function(err, full) {
+                   if (err) {
+                       console.error("Error fetching comments in viewAll");
+                   }
+                    resultJson.status = 1;
+                    resultJson.res = full;
                     res.send(resultJson);
-                }
+                });
+
+            }
         });
     }
-    
+
 };
+
 postcontroller.showComments = function (req, res, next) {
-    var getcomment = Post.findOne({ '_id': req.params.id }, 'comments', function (err, data) {
+    var getcomment = Post.findOne({'_id': req.params.postid}, 'comments', function (err, data) {
         if (err || !data) {
             resultJson.status = 0;
             resultJson.res = err;
             res.send(resultJson);
         }
         else {
-            
-                getcomment.populate('comments').exec(function (err, postData) {
-                    if (err) {
-                        resultJson.status = 0;
-                        resultJson.res = err;
-                        res.send(resultJson);
-                    }
-                    else {
-                        resultJson.res = postData;
-                        res.send(resultJson);
-                    }
-                });
-            }
-        
+
+            getcomment.populate('comments').exec(function (err, postData) {
+                if (err) {
+                    resultJson.status = 0;
+                    resultJson.res = err;
+                    res.send(resultJson);
+                }
+                else {
+                    resultJson.res = postData;
+                    res.send(resultJson);
+                }
+            });
+        }
+
     });
 
 };
 
 postcontroller.getComment = function (req, res, next) {
-    var getcomment = Comment.findOne({ '_id': req.params.id },  function (err, data) {
+    var getcomment = Comment.findOne({'_id': req.params.commentid}, function (err, data) {
         if (err || !data) {
             resultJson.status = 0;
             resultJson.res = err;
@@ -204,21 +214,21 @@ postcontroller.getComment = function (req, res, next) {
             resultJson.res = data;
             res.send(resultJson);
         }
-        
+
     });
 
 };
 
 //view individual posts by user
 postcontroller.viewPost = function (req, res, next) {
-    
+
     if (!req.user._id) {
         resultJson.status = 0;
         resultJson.res = "No user id found";
         res.send(resultJson);
     }
     else {
-        var group = Post.findOne({ 'author._id': req.user._id,'_id':req.params.id }, function (err, data) {
+        var group = Post.findOne({'author._id': req.user._id, '_id': req.params.id}, function (err, data) {
             if (err) {
                 resultJson.status = 0;
                 resultJson.res = "Cannot find the post you are looking for";
@@ -230,19 +240,19 @@ postcontroller.viewPost = function (req, res, next) {
             }
         });
     }
-    
+
 };
 
 //delete posts by user
 postcontroller.deletePost = function (req, res, next) {
-    
+
     if (!req.user._id) {
         resultJson.status = 0;
         resultJson.res = "No user id found";
         res.send(resultJson);
     }
     else {
-        var group = Post.findOne({ 'author': req.user._id, '_id': req.params.id }).remove(function (err, data) {
+        var group = Post.findOne({'author': req.user._id, '_id': req.params.id}).remove(function (err, data) {
             if (err) {
                 resultJson.status = 0;
                 resultJson.res = "Post deletion failed";
@@ -254,19 +264,19 @@ postcontroller.deletePost = function (req, res, next) {
             }
         });
     }
-    
+
 };
 
 //view individual posts by user
 postcontroller.upvote = function (req, res, next) {
-    
+
     if (!req.user._id) {
         resultJson.status = 0;
         resultJson.res = "No user id found";
         res.send(resultJson);
     }
     else {
-        var group = Post.findOne({ '_id': req.params.id }, function (err, data) {
+        var group = Post.findOne({'_id': req.params.id}, function (err, data) {
             if (err) {
                 resultJson.status = 0;
                 resultJson.res = "Cannot find the post you are looking for";
@@ -298,19 +308,19 @@ postcontroller.upvote = function (req, res, next) {
             }
         });
     }
-    
+
 };
 
 //view individual posts by user
 postcontroller.downvote = function (req, res, next) {
-    
+
     if (!req.user._id) {
         resultJson.status = 0;
         resultJson.res = "No user id found";
         res.send(resultJson);
     }
     else {
-        var group = Post.findOne({ '_id': req.params.id }, function (err, data) {
+        var group = Post.findOne({'_id': req.params.id}, function (err, data) {
             if (err) {
                 resultJson.status = 0;
                 resultJson.res = "Cannot find the post you are looking for";
@@ -341,7 +351,7 @@ postcontroller.downvote = function (req, res, next) {
             }
         });
     }
-    
+
 };
 
 module.exports = postcontroller;
